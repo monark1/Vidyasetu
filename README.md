@@ -1,15 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!--
-  <a href="https://github.com/othneildrew/Best-README-Template">
-  </a>
-  -->
-    <img src="./Student-ChatBot-Frontend/src/assets/images/8943377.png" alt="Logo" width="80" height="80">
-  </a>
-  -->
-
-
+    <img src="./Student-ChatBot-Frontend/src/assets/images/8943377.png" alt="Logo" width="100" height="100">
   <h3 align="center">Student-ChatBot</h3>
 </div>
 
