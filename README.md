@@ -3,15 +3,12 @@
 <div align="center">
   <!--
   <a href="https://github.com/othneildrew/Best-README-Template">
-<<<<<<< HEAD
   </a>
   -->
     <img src="./Student-ChatBot-Frontend/src/assets/images/8943377.png" alt="Logo" width="80" height="80">
-=======
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
   -->
->>>>>>> 1e5150d761cd280e8c2e7a61ac831c12bc4fad03
+
 
   <h3 align="center">Student-ChatBot</h3>
 </div>
