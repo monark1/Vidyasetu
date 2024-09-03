@@ -1,4 +1,4 @@
-package com.studentchatbot
+package com.studentchatbotfrontend
 
 import android.app.Application
 import android.content.res.Configuration

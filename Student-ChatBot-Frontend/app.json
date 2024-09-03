@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Student-ChatBot",
-    "slug": "Student-ChatBot",
+    "name": "Student-ChatBot-Frontend",
+    "slug": "Student-ChatBot-Frontend",
     "version": "1.0.0",
     "plugins": [
       "expo-router"

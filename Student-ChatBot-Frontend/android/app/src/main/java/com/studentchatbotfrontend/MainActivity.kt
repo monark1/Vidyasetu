@@ -1,4 +1,4 @@
-package com.studentchatbot
+package com.studentchatbotfrontend
 
 import android.os.Build
 import android.os.Bundle

@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'StudentChatBot'
+rootProject.name = 'StudentChatBotFrontend'
 
 dependencyResolutionManagement {
   versionCatalogs {

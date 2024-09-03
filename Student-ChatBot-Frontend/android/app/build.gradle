@@ -109,9 +109,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.studentchatbot"
+    namespace "com.studentchatbotfrontend"
     defaultConfig {
-        applicationId "com.studentchatbot"
+        applicationId "com.studentchatbotfrontend"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
