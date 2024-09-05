@@ -10,6 +10,9 @@
     npx expo install lottie-react-native
     npm i react-native-onboarding-swiper
     npm i @react-native-async-storage/async-storage
+    npx expo install expo-speech
+    npm i axios
+    npx expo install react-native-gifted-chat react-native-reanimated react-native-safe-area-context react-native-get-random-values
 ```
 
 

@@ -5,19 +5,22 @@ import {
   TextInput,
   Image,
   Dimensions,
+  Alert,
 } from "react-native";
 import { useState } from "react";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
-import { removeItem } from "../utils/asyncStorage";
-
+import { setItem } from "../utils/asyncStorage";
+import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
 
 const LoginScreen = () => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
   const handleGoBack = () => {
@@ -31,6 +34,25 @@ const LoginScreen = () => {
 
   const handleHomeWithOutLogin = () => {
     navigation.navigate("Home");
+  };
+
+  const handleSubmit = () => {
+    const userData = {
+      email: email,
+      password,
+    };
+    console.log(email, password);
+    axios
+    .post("http://192.168.31.130:5001/login", userData)
+    .then((res) => {console.log(res.data)
+      if(res.data.status === 'Ok'){
+        Alert.alert("Login Successfull");
+        setItem("token", res.data.data);
+        navigation.navigate("Home");
+      } else {
+        Alert.alert("Login Failed" , JSON.stringify(res.data));
+      }
+    })
   };
 
   return (
@@ -67,6 +89,7 @@ const LoginScreen = () => {
             className="flex-1 text-secondary px-2.5 font-light"
             placeholder="Enter your email"
             keyboardType="email-address"
+            onChange={(e) => setEmail(e.nativeEvent.text)}
           />
         </View>
         {/* Password */}
@@ -76,6 +99,7 @@ const LoginScreen = () => {
             className="flex-1 text-secondary px-2.5 font-light"
             placeholder="Enter your password"
             secureTextEntry={secureTextEntry}
+            onChange={(e) => setPassword(e.nativeEvent.text)}
           />
           <TouchableOpacity onPress={() => setSecureTextEntry((prev) => !prev)}>
             <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
@@ -87,7 +111,10 @@ const LoginScreen = () => {
           </Text>
         </TouchableOpacity>
         {/* Login Button */}
-        <TouchableOpacity className="bg-primary rounded-full mt-5">
+        <TouchableOpacity
+          className="bg-primary rounded-full mt-5"
+          onPress={() => handleSubmit()}
+        >
           <Text className="text-white text-2xl font-semibold text-center p-2.5">
             Login
           </Text>
