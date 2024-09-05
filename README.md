@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="./Student-ChatBot-Frontend/src/assets/images/8943377.png" alt="Logo" width="100" height="100">
+    <img src="./Student-ChatBot-Frontend/src/assets/image/8943377.png" alt="Logo" width="100" height="100">
   <h3 align="center">Student-ChatBot</h3>
 </div>
 
