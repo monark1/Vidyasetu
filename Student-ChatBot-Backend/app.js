@@ -5,8 +5,9 @@ app.use(express.json());
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {GoogleGenerativeAI} = require("@google/generative-ai");
+const env = require("dotenv");
 
-const apiKey = "AIzaSyCbr4dG2cqoQsrKksphyZO2vL4sgEOUQFQ";
+const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({
@@ -112,5 +113,5 @@ app.get("/userdata", async (req, res) => {
 });
 
 app.listen(5001, () => {
-  console.log("Server is running on port 3000");
+  console.log("Server is running on port 5001");
 });

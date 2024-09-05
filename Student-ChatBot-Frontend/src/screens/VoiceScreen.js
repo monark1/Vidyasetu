@@ -1,61 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { View, StyleSheet } from 'react-native';
 import axios from 'axios';
 
 const VoiceScreen = () => {
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    // Load initial messages (if any)
-    
+  // Load initial message
+  useState(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: 'Welcome! Please enter the city name to get information about polytechnic colleges.',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'Bot',
+        },
+      },
+    ]);
   }, []);
 
-  const onSend = async (newMessages = []) => {
+  // Handle sending message
+  const onSend = useCallback(async (newMessages = []) => {
     setMessages((previousMessages) => GiftedChat.append(previousMessages, newMessages));
 
+    const userMessage = newMessages[0].text;
+
     try {
-      const response = await axios.post('http://192.168.31.130:5001/chat', {
-        message: newMessages[0].text // Pass the user's message to the API
-      });
+      const response = await axios.post('http://192.168.31.130:5001/chat', { message: userMessage });
+      const botResponse = response.data.data;
 
-      if (response.status === 200) {
-        const polytechnicData = response.data.data.map((college) => ({
-          name: college.name,
-          place: college.place,
-          fee: college.fee,
-          branches: college.branches.join(', '), // Assuming branches is an array
-          image: college.image
-        }));
+      const botMessage = {
+        _id: Math.random().toString(),
+        text: botResponse,
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'Bot',
+        },
+      };
 
-        setMessages((previousMessages) => GiftedChat.append(previousMessages, [
-          // Display relevant college details
-          ...polytechnicData.map((college) => ({
-            _id: Math.random().toString(36).substring(7),
-            text: `- ${college.name} (Place: ${college.place}, Fee: ${college.fee}, Branches: ${college.branches})\n${college.image ? `Image: ${college.image}` : ''}`,
-            createdAt: new Date(),
-            user: { _id: 2, name: 'Bot', avatar: 'https://placehold.co/60' },
-          })),
-        ]));
-      } else {
-        console.error('Error fetching data:', response);
-      }
+      setMessages((previousMessages) => GiftedChat.append(previousMessages, [botMessage]));
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error fetching response from Gemini", error);
+      const botErrorMessage = {
+        _id: Math.random().toString(),
+        text: "Sorry, I couldn't find any polytechnic colleges in that city.",
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'Bot',
+        },
+      };
+      setMessages((previousMessages) => GiftedChat.append(previousMessages, [botErrorMessage]));
     }
-  };
+  }, []);
 
   return (
     <GiftedChat
       messages={messages}
-      onSend={onSend}
-      user={{ _id: 1, name: 'User', avatar: 'https://placehold.co/60' }}
+      onSend={(newMessages) => onSend(newMessages)}
+      user={{
+        _id: 1,
+      }}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  // ... styles for your app if needed
-});
 
 export default VoiceScreen;

@@ -6,4 +6,5 @@
     npm i mongoose
     npm i jsonwebtoken
     npm i bcryptjs
+    npm i dotenv
 ```
