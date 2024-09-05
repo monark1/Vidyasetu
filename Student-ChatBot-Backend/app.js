@@ -4,10 +4,39 @@ const mongoose = require("mongoose");
 app.use(express.json());
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {GoogleGenerativeAI} = require("@google/generative-ai");
+
+const apiKey = "AIzaSyCbr4dG2cqoQsrKksphyZO2vL4sgEOUQFQ";
+const genAI = new GoogleGenerativeAI(apiKey);
+
+const model = genAI.getGenerativeModel({
+  model:"gemini-1.5-flash",
+})
+
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 64,
+  maxOutputTokens: 8192,
+  responseMimeType: "text/plain",
+}
+
+app.post("/chat", async (req, res) => {
+  const chatSession = model.startChat({
+    generationConfig,
+    history: [
+    ],
+  });
+
+  const result = await chatSession.sendMessage(req.body.message);
+  res.send({status: "Ok", data: result.response.text()});
+})
+
 
 const mongoUrl =
   "mongodb+srv://white728:admin@cluster0.6gf9j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
+// const mongoUrl = process.env.MONGOURL
 const JWT_SECRET = "dasdhajgdkuefa17323183hnjkanflnuea";
 
 mongoose
