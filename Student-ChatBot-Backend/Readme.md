@@ -7,6 +7,7 @@
     npm i jsonwebtoken
     npm i bcryptjs
     npm i dotenv
+    npm i @google/generative-ai
 ```
 
 curl -X POST http://localhost:5001/colleges \

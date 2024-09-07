@@ -7,6 +7,7 @@ const collegeSchema = new mongoose.Schema({
     place: String,
     branches: [String],
     img: String,
+    city: String,
   });
   
   // Create a model for colleges
