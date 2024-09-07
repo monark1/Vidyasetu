@@ -82,6 +82,6 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-app.listen(5001, () => {
-    console.log('Server is running on port 5001');
+app.listen(4001, () => {
+    console.log('Server is running on port 4001');
 });

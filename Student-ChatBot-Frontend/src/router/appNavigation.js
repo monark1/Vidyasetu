@@ -40,7 +40,7 @@ const AppNavigation = () => {
     <NavigationContainer>
       <Stack.Navigator 
       //initialRouteName={showOnboarding ? 'Login' : 'Onboarding'} //this for Onboarding only once time showing
-       initialRouteName="Voice" //this for testing
+       initialRouteName="Onboarding" //this for testing
       >
         <Stack.Screen
           name="Login"

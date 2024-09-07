@@ -5,6 +5,14 @@
     "version": "1.0.0",
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "1392eba1-a5d9-462f-a127-a97896170567"
+      }
+    }
   }
 }

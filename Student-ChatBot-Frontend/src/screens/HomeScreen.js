@@ -29,6 +29,7 @@ const HomeScreen = () => {
   return (
     <SafeAreaView className='flex-1 bg-white p-5'>
       <View className='flex-1 justify-center items-center'>
+        <Text className='text-2xl font-bold'>Please Click top back button ans login</Text>
         <Text className='text-2xl font-bold'>Home Screen</Text>
         <Text className='text-xl'>Welcome to Home Screen</Text>
         <Text className='text-xs'>Name:{userData.name}</Text>

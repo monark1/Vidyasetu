@@ -48,7 +48,7 @@ const LoginScreen = () => {
       if(res.data.status === 'Ok'){
         Alert.alert("Login Successfull");
         setItem("token", res.data.data);
-        navigation.navigate("Home");
+        navigation.navigate("Chat");
       } else {
         Alert.alert("Login Failed" , JSON.stringify(res.data));
       }

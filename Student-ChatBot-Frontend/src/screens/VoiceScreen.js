@@ -27,7 +27,7 @@ const VoiceScreen = () => {
     const userMessage = newMessages[0].text;
 
     try {
-      const response = await axios.post('http://192.168.31.130:5001/chat', { message: userMessage });
+      const response = await axios.post('http://192.168.31.130:5001/chats', { message: userMessage });
       const botResponse = response.data.data;
 
       const botMessage = {

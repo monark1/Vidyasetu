@@ -4,15 +4,20 @@ const mongoose = require("mongoose");
 app.use(express.json());
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const {GoogleGenerativeAI} = require("@google/generative-ai");
-const env = require("dotenv");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+require("dotenv").config();
+
+const post = process.env.PORT || 5001;
 
 const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
+const mongoUrl = process.env.MONGOURL;
+const JWT_SECRET = "dasdhajgdkuefa17323183hnjkanflnuea";
+
 const model = genAI.getGenerativeModel({
-  model:"gemini-1.5-flash",
-})
+  model: "gemini-1.5-flash",
+});
 
 const generationConfig = {
   temperature: 1,
@@ -20,27 +25,154 @@ const generationConfig = {
   topK: 64,
   maxOutputTokens: 8192,
   responseMimeType: "text/plain",
-}
+};
+
+const geminiFunction = async (city) => {
+  const chatSession = model.startChat({
+    generationConfig,
+    history: [],
+  });
+
+  const result = await chatSession.sendMessage(`${city}`);
+  const responseText = await result.response.text();
+
+  res.send({
+    status: "Ok",
+    data: responseText,
+  });
+};
 
 app.post("/chat", async (req, res) => {
   const chatSession = model.startChat({
     generationConfig,
-    history: [
-    ],
+    history: [],
   });
 
   const result = await chatSession.sendMessage(req.body.message);
-  res.send({status: "Ok", data: result.response.text()});
-})
+  res.send({ status: "Ok", data: result.response.text() });
+});
 
+// POST route to handle chat and find college by city
+app.post("/chats", async (req, res) => {
+  try {
+    // Extract the user's message
+    const userMessage = req.body.message.trim().toLowerCase(); // Normalize the message for easier comparison
+    // const userMessage = req.body.message.trim(); // Normalize the message for easier comparison
+    // Check if the message is "hi" or "hello"
+    if (userMessage === "hi" || userMessage === "hello") {
+      return res.send({
+        status: "Ok",
+        data: "May I help you?",
+      });
+    }
+    // Extract the city from the user's message
+    // const city = req.body.message.trim();
+    const city = userMessage;
+    // Query MongoDB to find colleges by city
+    const collegesInCity = await College.find({ city });
 
-const mongoUrl =
-  "mongodb+srv://white728:admin@cluster0.6gf9j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    // Check if colleges are found for the provided city
+    if (collegesInCity.length > 0) {
+      const collegeDetails = collegesInCity
+        .map((college) => {
+          return `Name: ${college.name}\nFee: ${college.fee}\nPlace: ${
+            college.place
+          }\nBranches: ${college.branches.join(", ")}`;
+        })
+        .join("\n\n");
 
-// const mongoUrl = process.env.MONGOURL
-const JWT_SECRET = "dasdhajgdkuefa17323183hnjkanflnuea";
+      const collegeImages = collegesInCity
+        .map((college) => {
+          return `${college.img}`;
+        })
+        .join("\n\n");
+      // Return the found college data
+      res.send({
+        status: "Ok",
+        data: collegeDetails,
+        dataImg: collegeImages,
+      });
+    } else {
+      //If no colleges are found, use Gemini AI to reply intelligently
+      const chatSession = model.startChat({
+        generationConfig,
+        history: [],
+      });
 
-mongoose
+      const result = await chatSession.sendMessage(
+        // `No data found for ${city}. Could you provide more information on this city's polytechnic colleges?`
+        city
+      );
+      const responseText = await result.response.text();
+
+      res.send({
+        status: "Ok",
+        data: responseText,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: "Error",
+      message: error.message,
+    });
+  }
+});
+
+// College Data System
+mongoose // connecting to the database for college data
+  .connect(mongoUrl)
+  .then(() => {
+    console.log("MongoDB connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+require("./CollegeData");
+
+const College = mongoose.model("College");
+
+app.post("/college", async (req, res) => {
+  try {
+    const city = req.body.city; // Get city from request body
+    const collegesInCity = req.body.colleges; // Get colleges array from request body
+
+    // Save each college in the city to the database
+    const savedColleges = [];
+    for (let collegeData of collegesInCity) {
+      const newCollege = new College(collegeData);
+      const savedCollege = await newCollege.save();
+      savedColleges.push(savedCollege);
+    }
+    res
+      .status(201)
+      .send({ message: `Colleges added in ${city}`, data: savedColleges });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// GET route to retrieve colleges from MongoDB
+app.get("/college/:city", async (req, res) => {
+  try {
+    const city = req.params.city;
+
+    // Find colleges by city
+    const colleges = await College.find({ city });
+
+    if (colleges.length > 0) {
+      res.status(200).send(colleges);
+    } else {
+      res.status(404).send({ message: `No colleges found in ${city}` });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// User data System
+
+mongoose //connecting to the database for user details
   .connect(mongoUrl)
   .then(() => {
     console.log("MongoDB connected");
@@ -96,22 +228,22 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/userdata", async (req, res) => {
-    const {token} = req.body;
-    try {
-        const user = jwt.verify(token, JWT_SECRET);
-        const useremail = user.email;
+  const { token } = req.body;
+  try {
+    const user = jwt.verify(token, JWT_SECRET);
+    const useremail = user.email;
 
-        User.findOne({email: useremail}, (err, user) => {
-            if (err) {
-                res.send({status: "error", data: "Invalid token"});
-            }
-            res.send({status: "Ok", data: user});
-        });
-    } catch (err) {
-        res.send({status: "error", data: "Invalid token"});
-    }
+    User.findOne({ email: useremail }, (err, user) => {
+      if (err) {
+        res.send({ status: "error", data: "Invalid token" });
+      }
+      res.send({ status: "Ok", data: user });
+    });
+  } catch (err) {
+    res.send({ status: "error", data: "Invalid token" });
+  }
 });
 
-app.listen(5001, () => {
-  console.log("Server is running on port 5001");
+app.listen(post, () => {
+  console.log(`Server is running on port ${post}`);
 });

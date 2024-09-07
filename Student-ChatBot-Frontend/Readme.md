@@ -13,11 +13,28 @@
     npx expo install expo-speech
     npm i axios
     npx expo install react-native-gifted-chat react-native-reanimated react-native-safe-area-context react-native-get-random-values
+    npm i expo-image
 ```
-
 
 # Start Application commands
 
 ```sh
     npx expo start
+    eas build -p android --profile preview
+```
+
+# Test
+
+```sh
+    npx expo-doctor
+    npx expo install --check
+```
+
+# Build App
+
+```sh
+    npm install -g eas-cli
+    eas login
+    eas build:configure
+    eas build -p android --profile preview # For Android Apk
 ```
