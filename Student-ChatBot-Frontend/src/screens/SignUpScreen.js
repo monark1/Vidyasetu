@@ -76,7 +76,7 @@ const SignUpScreen = () => {
     };
     if (nameVerify && emailVerify && passwordVerify) {
       axios
-        .post("http://192.168.31.130:5001/register", userData)
+        .post("https://student-chatbot-a8hx.onrender.com/register", userData)
         .then((res) => {
           console.log(res.data);
           if(res.data.status === "Ok"){

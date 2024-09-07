@@ -32,7 +32,7 @@ const ChatScreen = () => {
     setLoading(true);
     // Send the new message to your API
     try {
-      const response = await fetch("http://192.168.31.130:5001/chats", {
+      const response = await fetch("https://student-chatbot-a8hx.onrender.com/chats", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

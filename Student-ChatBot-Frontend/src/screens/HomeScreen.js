@@ -19,7 +19,7 @@ const HomeScreen = () => {
     const token = await getItems("token");
     console.log(token);
     axios
-      .post("http://192.168.31.130:5001/userdata", { token:token })
+      .post("https://student-chatbot-a8hx.onrender.com/userdata", { token:token })
       .then((res) => {
         console.log(res.data);
         setUserData(res.data.data);

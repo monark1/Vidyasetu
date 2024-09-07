@@ -10,6 +10,11 @@
     npm i @google/generative-ai
 ```
 
+# Line
+```sh
+  https://student-chatbot-a8hx.onrender.com
+```
+
 curl -X POST http://localhost:5001/colleges \
 -H "Content-Type: application/json" \
 -d '{
