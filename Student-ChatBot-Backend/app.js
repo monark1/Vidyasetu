@@ -228,17 +228,17 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/userdata", async (req, res) => {
+app.post("/userdata", async (req, res) => {
   const { token } = req.body;
   try {
     const user = jwt.verify(token, JWT_SECRET);
     const useremail = user.email;
 
-   User.findOne({email: useremail}).then((data) => {
-    return res.send({ status: "Ok", data: data });
-   })
-  } catch (err) {
-    res.send({ status: "error", data: "Invalid token" });
+    User.findOne({ email: useremail }).then((data) => {
+      return res.send({ status: "Ok", data: data });
+    });
+  } catch (error) {
+    return res.send({ error: error });
   }
 });
 

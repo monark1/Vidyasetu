@@ -1,9 +1,31 @@
 import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import React from "react";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 
 const ProfileScreen = () => {
+  const [userData, setUserData] = useState("");
+
+  const getUserData = async () => {
+    const token = await AsyncStorage.getItem("token");
+    console.log(token);
+    axios
+      .post("https://student-chatbot-a8hx.onrender.com/userdata", {
+        token: token,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setUserData(res.data.data);
+      });
+  };
+
+  useEffect(() => {
+    console.log("Profile Screen");
+    getUserData();
+  }, []);
+
   return (
     <SafeAreaView className="flex-1 p-2 bg-white">
       <View className="flex-row justify-between">

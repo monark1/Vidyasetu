@@ -13,7 +13,7 @@ import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
-import { setItem } from "../utils/asyncStorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
@@ -49,7 +49,7 @@ const LoginScreen = () => {
         console.log(res.data);
         if (res.data.status === "Ok") {
           Alert.alert("Login Successfull");
-          setItem("token", res.data.data);
+          AsyncStorage.setItem("token", res.data.data);
           navigation.navigate("Profile");
         } else {
           Alert.alert("Login Failed", JSON.stringify(res.data));
