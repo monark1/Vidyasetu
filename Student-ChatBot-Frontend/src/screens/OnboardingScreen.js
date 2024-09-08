@@ -10,8 +10,10 @@ import LottieView from "lottie-react-native";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { setItem } from "../utils/asyncStorage";
+import { COLORS } from "../theme/theme";
 
 const { width, height } = Dimensions.get("window");
+
 const OnboardingScreen = () => {
   const navigation = useNavigation();
 
@@ -25,7 +27,7 @@ const OnboardingScreen = () => {
       <Onboarding
         onSkip={handleLogin}
         onDone={handleLogin}
-        controlStatusBar={false}
+        controlStatusBar={true}
         pages={[
           {
             backgroundColor: "#AFDBF5",

@@ -13,6 +13,9 @@
       "eas": {
         "projectId": "1392eba1-a5d9-462f-a127-a97896170567"
       }
+    },
+    "android": {
+      "package": "com.white728.StudentChatBotFrontend"
     }
   }
 }

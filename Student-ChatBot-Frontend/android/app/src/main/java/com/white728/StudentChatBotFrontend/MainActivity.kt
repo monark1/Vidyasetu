@@ -1,4 +1,4 @@
-package com.studentchatbotfrontend
+package com.white728.StudentChatBotFrontend
 
 import android.os.Build
 import android.os.Bundle

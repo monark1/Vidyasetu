@@ -190,7 +190,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, phone ,email, password } = req.body;
   const oldUser = await User.findOne({ email: req.body.email });
   if (oldUser) {
     return res.send({ status: "error", data: "User already exists" });
@@ -199,6 +199,7 @@ app.post("/register", async (req, res) => {
   try {
     await User.create({
       name: name,
+      phone: phone,
       email: email,
       password: encyptedPassword,
     });
@@ -233,12 +234,9 @@ app.get("/userdata", async (req, res) => {
     const user = jwt.verify(token, JWT_SECRET);
     const useremail = user.email;
 
-    User.findOne({ email: useremail }, (err, user) => {
-      if (err) {
-        res.send({ status: "error", data: "Invalid token" });
-      }
-      res.send({ status: "Ok", data: user });
-    });
+   User.findOne({email: useremail}).then((data) => {
+    return res.send({ status: "Ok", data: data });
+   })
   } catch (err) {
     res.send({ status: "error", data: "Invalid token" });
   }

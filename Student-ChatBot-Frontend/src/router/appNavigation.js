@@ -5,8 +5,8 @@ import {
   LoginScreen,
   SignUpScreen,
   OnboardingScreen,
-  VoiceScreen,
   ChatScreen,
+  ProfileScreen,
 } from "../screens";
 import { useEffect , useState} from "react";
 import { getItem } from "../utils/asyncStorage";
@@ -40,7 +40,7 @@ const AppNavigation = () => {
     <NavigationContainer>
       <Stack.Navigator 
       //initialRouteName={showOnboarding ? 'Login' : 'Onboarding'} //this for Onboarding only once time showing
-       initialRouteName="Onboarding" //this for testing
+       initialRouteName="Home" //this for testing
       >
         <Stack.Screen
           name="Login"
@@ -63,9 +63,9 @@ const AppNavigation = () => {
           component={HomeScreen}
         />
         <Stack.Screen
-          name="Voice"
+          name="Profile"
           options={{ headerShown: false }}
-          component={VoiceScreen}
+          component={ProfileScreen}
         />
         <Stack.Screen
           name="Chat"

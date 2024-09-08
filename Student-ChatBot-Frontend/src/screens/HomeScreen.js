@@ -17,14 +17,22 @@ const HomeScreen = () => {
 
   const getItems = async () => {
     const token = await getItems("token");
+    console.log("token");
     console.log(token);
     axios
-      .post("https://student-chatbot-a8hx.onrender.com/userdata", { token:token })
+      .post(
+        "https://student-chatbot-a8hx.onrender.com/userdata",
+        { token:token })
       .then((res) => {
         console.log(res.data);
         setUserData(res.data.data);
       })
   }
+
+  useEffect(() => {
+    getItems();
+    // console.log(token);
+  },[])
 
   return (
     <SafeAreaView className='flex-1 bg-white p-5'>
@@ -32,8 +40,8 @@ const HomeScreen = () => {
         <Text className='text-2xl font-bold'>Please Click top back button ans login</Text>
         <Text className='text-2xl font-bold'>Home Screen</Text>
         <Text className='text-xl'>Welcome to Home Screen</Text>
-        <Text className='text-xs'>Name:{userData.name}</Text>
-        <Text className='text-xs'>Email:{userData.email}</Text>
+        <Text className='text-xs'>Name:</Text>
+        <Text className='text-xs'>Email:</Text>
       </View>
     </SafeAreaView>
   )

@@ -1,12 +1,22 @@
-import { View } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import backButton from "../components/backButton";
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import {
+  GiftedChat,
+  Bubble,
+  Send,
+  InputToolbar,
+} from "react-native-gifted-chat";
 import React, { useState, useEffect } from "react";
-import { Image as ExpoImage } from 'expo-image';
+import { Image as ExpoImage } from "expo-image";
+import { Image } from "react-native";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     // Load initial messages (if any) from your database or API
@@ -18,9 +28,10 @@ const ChatScreen = () => {
         user: {
           _id: 2,
           name: "Bot",
+          avatar: "https://png.pngtree.com/png-vector/20220622/ourmid/pngtree-chatbot-color-icon-chat-bot-png-image_5258006.png",
         },
         image:
-          "https://cms.imgworlds.com/assets/e3873302-212a-4c3a-aab3-c3bee866903c.jpg?key=home-gallery",
+          "https://png.pngtree.com/png-vector/20221001/ourmid/pngtree-welcome-text-png-image_238949.png",
       },
     ]);
   }, []);
@@ -32,13 +43,16 @@ const ChatScreen = () => {
     setLoading(true);
     // Send the new message to your API
     try {
-      const response = await fetch("https://student-chatbot-a8hx.onrender.com/chats", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: newMessages[0].text }),
-      });
+      const response = await fetch(
+        "https://student-chatbot-a8hx.onrender.com/chats",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: newMessages[0].text }),
+        }
+      );
       const data = await response.json();
       if (data.status === "Ok") {
         setMessages((previousMessages) =>
@@ -52,7 +66,7 @@ const ChatScreen = () => {
                 name: "Bot",
                 avatar: "https://placehold.co/60", // Optional: Bot's avatar
               },
-              image: data.dataImg
+              image: data.dataImg,
             },
           ])
         );
@@ -76,29 +90,59 @@ const ChatScreen = () => {
     );
   };
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  }
+
   return (
-    <View className="flex-1 bg-white">
-      {/* <backButton /> */}
+    <View className="flex-1 bg-white p-2">
+      <View className=" justify-center">
+        <Text className="text-3xl font-semibold text-primary text-center">Chat</Text>
+        <TouchableOpacity className=" absolute h-10 w-10 bg-gray-300 rounded-full justify-center items-center ml-3 ">
+          <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
+        </TouchableOpacity>
+      </View>
+
       <GiftedChat
         statusBarTranslucent={false}
         messages={messages}
         onSend={onSend}
         isTyping={loading}
-        // renderSend={(props) => (
-        //   <View>
-        //     <Image
-        //       source={require("../assets/image/google.png")}
-        //       style={{ width: 40, height: 40 }}
-        //     />
-        //   </View>
-        // )}
-        // renderMessageImage={(props) => (
-        //   <Image
-        //     source={{ uri: props.currentMessage.image }}
-        //     // style={{ width: 200, height: 200 , borderRadius: 10 }}
-        //     className="w-40 h-40 rounded-lg"
-        //   />
-        // )}
+        alwaysShowSend={true}
+        renderInputToolbar={(props) => (
+          <View>
+            <View className="flex-row items-center">
+              <View className="flex-1">
+                <InputToolbar
+                  {...props}
+                  // className="border-2 border-gray-300 rounded-full p-5"
+                  containerStyle={{
+                    borderRadius: 30,
+                    borderWidth: 1,
+                    borderColor: "gray",
+                    padding: 5,
+                  }}
+                  textInputStyle={{ color: "gray" }}
+                  placeholder="Type a message..."
+                  placeholderTextColor="gray"
+                  multiline={false}
+                  textInputProps={{
+                    returnKeyType: "send",
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+        )}
+        renderSend={(props) => (
+          <View>
+            <Send {...props} containerStyle={{ justifyContent: "center" }}>
+              <View className="flex justify-center items-center mr-2">
+                <FontAwesome name="send" size={24} color="blue" />
+              </View>
+            </Send>
+          </View>
+        )}
         renderMessageImage={renderMessageImage}
         renderBubble={(props) => {
           return (

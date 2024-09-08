@@ -1,0 +1,71 @@
+{
+    "city": "delhi",
+    "colleges": [
+        {
+            "name": "college1",
+            "img": "https://www.google.com",
+            "courses": [
+                {
+                    "name": "course1",
+                    "duration": "2 years",
+                    "fees": "20000"
+                },
+                {
+                    "name": "course2",
+                    "duration": "3 years",
+                    "fees": "30000"
+                }
+            ],
+            "contact" : {
+                "email" : "New.com",
+                "phone" : "1234567890",
+                "address" : "New Delhi , 232423",
+                "website" : "www.new.com"
+            }
+        },
+        {
+            "name": "college2",
+            "img": "https://www.google.com",
+            "courses": [
+                {
+                    "name": "course1",
+                    "duration": "2 years",
+                    "fees": "20000"
+                },
+                {
+                    "name": "course2",
+                    "duration": "3 years",
+                    "fees": "30000"
+                }
+            ],
+            "contact" : {
+                "email" : "New.com",
+                "phone" : "1234567890",
+                "address" : "New Delhi , 232423",
+                "website" : "www.new.com"
+            }
+        },
+        {
+            "name": "college3",
+            "img": "https://www.google.com",
+            "courses": [
+                {
+                    "name": "course1",
+                    "duration": "2 years",
+                    "fees": "20000"
+                },
+                {
+                    "name": "course2",
+                    "duration": "3 years",
+                    "fees": "30000"
+                }
+            ],
+            "contact" : {
+                "email" : "New.com",
+                "phone" : "1234567890",
+                "address" : "New Delhi , 232423",
+                "website" : "www.new.com"
+            }
+        }
+    ]
+}
