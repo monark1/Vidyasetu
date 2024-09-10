@@ -12,7 +12,6 @@ import { Image } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -28,7 +27,8 @@ const ChatScreen = () => {
         user: {
           _id: 2,
           name: "Bot",
-          avatar: "https://png.pngtree.com/png-vector/20220622/ourmid/pngtree-chatbot-color-icon-chat-bot-png-image_5258006.png",
+          avatar:
+            "https://png.pngtree.com/png-vector/20220622/ourmid/pngtree-chatbot-color-icon-chat-bot-png-image_5258006.png",
         },
         image:
           "https://png.pngtree.com/png-vector/20221001/ourmid/pngtree-welcome-text-png-image_238949.png",
@@ -90,15 +90,22 @@ const ChatScreen = () => {
     );
   };
 
-  const handleGoBack = () => {
-    navigation.goBack();
-  }
+  const handleGoBack = async () => {
+    // navigator.goBack();
+    navigation.navigate("Home")
+    // await removeItem("onboarding");
+  };
 
   return (
     <View className="flex-1 bg-white p-2">
       <View className=" justify-center">
-        <Text className="text-3xl font-semibold text-primary text-center">Chat</Text>
-        <TouchableOpacity className=" absolute h-10 w-10 bg-gray-300 rounded-full justify-center items-center ml-3 ">
+        <Text className="text-3xl font-semibold text-primary text-center">
+          Chat
+        </Text>
+        <TouchableOpacity
+          className=" absolute h-10 w-10 bg-gray-300 rounded-full justify-center items-center ml-3"
+          onPress={handleGoBack}
+        >
           <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
         </TouchableOpacity>
       </View>

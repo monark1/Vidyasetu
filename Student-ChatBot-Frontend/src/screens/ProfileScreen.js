@@ -3,10 +3,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 
 const ProfileScreen = () => {
   const [userData, setUserData] = useState("");
+
+  const navigation = useNavigation();
 
   const getUserData = async () => {
     const token = await AsyncStorage.getItem("token");
@@ -16,13 +19,22 @@ const ProfileScreen = () => {
         token: token,
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data); //for testing
         setUserData(res.data.data);
       });
   };
 
+  const handleLogout = async () => {
+    // AsyncStorage.setItem("token",'');
+    AsyncStorage.setItem("isLogin",JSON.stringify(false));
+    navigation.navigate("Login");
+  }
+
+  const handleDone = () => {
+    navigation.navigate("Home");
+  }
   useEffect(() => {
-    console.log("Profile Screen");
+    // console.log("Profile Screen");
     getUserData();
   }, []);
 
@@ -44,31 +56,42 @@ const ProfileScreen = () => {
           source={require("../assets/image/profile.png")}
           className="h-40 w-40 rounded-full"
         />
-        <Text className="text-xl font-semibold mt-2">John Doe</Text>
+        <Text className="text-xl font-semibold mt-2">{userData.name}</Text>
       </View>
       <View className=" gap-y-5 mt-5">
         <View className="border border-secondary rounded-2xl px-5 py-3 flex-row items-center">
           <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
           <Text className="flex-1 text-primary font-semibold px-2.5">
-            Name :
+            Name : {userData.name}
           </Text>
         </View>
         <View className="border border-secondary rounded-2xl px-5 py-3 flex-row items-center">
           <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
           <Text className="flex-1 text-primary font-semibold px-2.5">
-            Email :
+            Email : {userData.email}
           </Text>
         </View>
         <View className="border border-secondary rounded-2xl px-5 py-3 flex-row items-center">
           <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
           <Text className="flex-1 text-primary font-semibold px-2.5">
-            Phone No :
+            Phone No : {userData.phone}
           </Text>
         </View>
       </View>
       <View>
-        <TouchableOpacity className="bg-primary rounded-2xl py-3 mt-5">
-          <Text className="text-white text-center font-bold">Log Out</Text>
+      <TouchableOpacity className="bg-primary rounded-2xl py-3 mt-5"
+          onPress={handleDone}
+        >
+          <Text className="text-white text-center font-bold">
+            Done
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity className="bg-primary rounded-2xl py-3 mt-5"
+          onPress={handleLogout}
+        >
+          <Text className="text-white text-center font-bold">
+            Logout
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

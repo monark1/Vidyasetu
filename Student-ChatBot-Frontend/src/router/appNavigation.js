@@ -8,39 +8,31 @@ import {
   ChatScreen,
   ProfileScreen,
 } from "../screens";
-import { useEffect , useState} from "react";
+import { useEffect, useState } from "react";
 import { getItem } from "../utils/asyncStorage";
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
-  const [showOnboarding, setShowOnboarding] = useState(null);
+  const [IsLogin, setIsLogin] = useState(false);
 
-  const handleOnboarding = async () => {
-    let onboarding = await getItem("onboarding");
-    if (onboarding == 1) {
-      //hide onboarding
-      setShowOnboarding(false);
-    }else {
-      //show onboarding
-      setShowOnboarding(true);
-    }
-  }
+  const checkLogin = async () => {
+    let login = await getItem("isLogin");
+    console.log(login);
+    setIsLogin(login);
+    console.log("IsLogin", IsLogin);
+  };
 
   useEffect(() => {
-      handleOnboarding();
-      //console.log("showOnboarding", showOnboarding); //for testing
-  },[]);
-
-  if (showOnboarding == null) {
-    return null;
-  }
+    checkLogin();
+  }, []);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator 
-      //initialRouteName={showOnboarding ? 'Login' : 'Onboarding'} //this for Onboarding only once time showing
-       initialRouteName="Login" //this for testing
+      <Stack.Navigator
+        // initialRouteName="Login" //this for testing
+        // initialRouteName={IsLogin ? "Home" : "Login"}
+        initialRouteName="Onboarding"
       >
         <Stack.Screen
           name="Login"
