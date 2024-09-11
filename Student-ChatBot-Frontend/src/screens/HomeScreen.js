@@ -25,12 +25,12 @@ const HomeScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-white p-5">
       <View className='justify-between items-center flex-row'>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center"
           onPress={handleGoBack}
         >
           <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text className='font-semibold text-3xl text-center'>
           Home
         </Text>

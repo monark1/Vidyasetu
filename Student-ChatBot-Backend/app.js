@@ -102,8 +102,8 @@ app.post("/chats", async (req, res) => {
       });
 
       const result = await chatSession.sendMessage(
-        // `No data found for ${city}. Could you provide more information on this city's polytechnic colleges?`
-        city
+        `No data found for ${city}. Could you provide more information on this city's polytechnic colleges?`
+        // city
       );
       const responseText = await result.response.text();
 
