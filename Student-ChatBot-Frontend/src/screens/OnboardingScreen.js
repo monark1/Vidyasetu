@@ -52,8 +52,8 @@ const OnboardingScreen = () => {
                 style={styles.lottie}
               />
             ),
-            title: "Academic Planner",
-            subtitle: "Designed to help you plan your academic year",
+            title: "Help in Admissions",
+            subtitle: "Designed to help you plan your college",
           },
           {
             backgroundColor: "#2D68C4",
@@ -65,7 +65,7 @@ const OnboardingScreen = () => {
                 style={styles.lottie}
               />
             ),
-            title: "Study Material",
+            title: "College Journey",
             subtitle: "Your Journey to becoming a better student starts here",
           },
         ]}

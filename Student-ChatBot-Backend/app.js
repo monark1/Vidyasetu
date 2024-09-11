@@ -75,7 +75,9 @@ app.post("/chats", async (req, res) => {
     if (collegesInCity.length > 0) {
       const collegeDetails = collegesInCity
         .map((college) => {
-          return `Name: ${college.name}\nFee: ${college.fee}\nPlace: ${
+          return `Name: ${college.name}\n
+          Website: ${college.website}
+          \nAddress: ${
             college.place
           }\nBranches: ${college.branches.join(", ")}`;
         })
@@ -190,7 +192,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { name, phone ,email, password } = req.body;
+  const { name, phone, email, password } = req.body;
   const oldUser = await User.findOne({ email: req.body.email });
   if (oldUser) {
     return res.send({ status: "error", data: "User already exists" });
@@ -241,6 +243,31 @@ app.post("/userdata", async (req, res) => {
     return res.send({ error: error });
   }
 });
+
+mongoose
+  .connect(mongoUrl)
+  .then(() => {
+    console.log("MongoDB connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+require("./FormData");
+
+app.port("/form", async (req, res) => {
+  const { city, colleges } = req.body;
+  try {
+    // Create new city
+    const newCity = new City({ city, colleges });
+    await newCity.save();
+    res.send({ status: "Ok", data: "CityData" });
+  } catch (e) {
+    res.send({ status: "Error", data: "Invalid" });
+  }
+});
+
+
 
 app.listen(post, () => {
   console.log(`Server is running on port ${post}`);

@@ -1,71 +1,38 @@
 {
-    "city": "delhi",
-    "colleges": [
-        {
-            "name": "college1",
-            "img": "https://www.google.com",
-            "courses": [
-                {
-                    "name": "course1",
-                    "duration": "2 years",
-                    "fees": "20000"
-                },
-                {
-                    "name": "course2",
-                    "duration": "3 years",
-                    "fees": "30000"
-                }
-            ],
-            "contact" : {
-                "email" : "New.com",
-                "phone" : "1234567890",
-                "address" : "New Delhi , 232423",
-                "website" : "www.new.com"
-            }
-        },
-        {
-            "name": "college2",
-            "img": "https://www.google.com",
-            "courses": [
-                {
-                    "name": "course1",
-                    "duration": "2 years",
-                    "fees": "20000"
-                },
-                {
-                    "name": "course2",
-                    "duration": "3 years",
-                    "fees": "30000"
-                }
-            ],
-            "contact" : {
-                "email" : "New.com",
-                "phone" : "1234567890",
-                "address" : "New Delhi , 232423",
-                "website" : "www.new.com"
-            }
-        },
-        {
-            "name": "college3",
-            "img": "https://www.google.com",
-            "courses": [
-                {
-                    "name": "course1",
-                    "duration": "2 years",
-                    "fees": "20000"
-                },
-                {
-                    "name": "course2",
-                    "duration": "3 years",
-                    "fees": "30000"
-                }
-            ],
-            "contact" : {
-                "email" : "New.com",
-                "phone" : "1234567890",
-                "address" : "New Delhi , 232423",
-                "website" : "www.new.com"
-            }
-        }
+    "city": "Jaipur",
+    "name": "Jaipur National University",
+    "place": "Jaipur-Agra Bypass Near New RTO office Jagatpura",
+    "img": "https://www.jnujaipur.ac.in/images/campus_visit.webp",
+    "branches": [
+        "Diploma in Fashion Designing",
+        "₹ 53000",
+        "Diploma in Bakery & Confectionery",
+        "₹ 42500"
+    ]
+}
+
+{
+    "city": "Udaipur",
+    "name": "Pacific College of Basic & Applied Sciences",
+    "place": "Pacific Hills, Pratap Nagar Extn., Airport Road, Debari, Udaipur",
+    "img": "https://www.pacific-university.ac.in/uploads/Pages/Document/3BL.jpg",
+    "branches": [
+        "B.Sc. (Hons.) Agriculture",
+        "₹ 50000",
+        "B.Sc. (Hons.) Horticulture",
+        "₹ 50000"
+    ]
+}
+
+{
+    "city": "Ajmer",
+    "name": "Bhagwant University",
+    "place": "Pushkar By-Pass Road, Ajmer",
+    "img": "https://images.shiksha.com/mediadata/images/1531995673phpyDU9N0.jpeg",
+    "branches": [
+        "B.Sc. (Hons.) Agriculture",
+        "₹ 50000",
+        "B.Sc. (Hons.) Horticulture",
+        "₹ 70000"
     ]
 }

@@ -9,30 +9,5 @@ const collegeSchema = new mongoose.Schema({
     img: String,
   });
   
-//   // Create a model for colleges
-// const courseSchema = new mongoose.Schema({
-//   name: String,
-//   duration: String,
-//   fees: String,
-// });
-
-// const contactSchema = new mongoose.Schema({
-//   email: String,
-//   phone: String,
-//   address: String,
-//   website: String,
-// });
-
-// const collegeSchema = new mongoose.Schema({
-//   name: String,
-//   img: String,
-//   courses: [courseSchema],
-//   contact: contactSchema,
-// });
-
-// const citySchema = new mongoose.Schema({
-//   city: String,
-//   colleges: [collegeSchema],
-// });
 const College = mongoose.model('College', collegeSchema);
 

@@ -7,6 +7,8 @@ import {
   OnboardingScreen,
   ChatScreen,
   ProfileScreen,
+  FormScreen,
+  OtpScreen,
 } from "../screens";
 import { useEffect, useState } from "react";
 import { getItem } from "../utils/asyncStorage";
@@ -18,9 +20,9 @@ const AppNavigation = () => {
 
   const checkLogin = async () => {
     let login = await getItem("isLogin");
-    console.log(login);
+    // console.log(login);
     setIsLogin(login);
-    console.log("IsLogin", IsLogin);
+    // console.log("IsLogin", IsLogin);
   };
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const AppNavigation = () => {
       <Stack.Navigator
         // initialRouteName="Login" //this for testing
         // initialRouteName={IsLogin ? "Home" : "Login"}
-        initialRouteName="Onboarding"
+        initialRouteName="Chat"
       >
         <Stack.Screen
           name="Login"
@@ -63,6 +65,16 @@ const AppNavigation = () => {
           name="Chat"
           options={{ headerShown: false }}
           component={ChatScreen}
+        />
+        <Stack.Screen
+          name="Form"
+          options={{ headerShown: false }}
+          component={FormScreen}
+        />
+        <Stack.Screen
+        name="Otp"
+        options={{headerShown:false}}
+        component={OtpScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

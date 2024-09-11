@@ -4,6 +4,8 @@ import SignUpScreen from "./SignUpScreen";
 import OnboardingScreen from "./OnboardingScreen";
 import ChatScreen from "./ChatScreen";
 import ProfileScreen from "./ProfileScreen";
+import FormScreen from "./FormScreen";
+import OtpScreen from "./OtpScreen";
 export {
   HomeScreen,
   LoginScreen,
@@ -11,4 +13,6 @@ export {
   OnboardingScreen,
   ChatScreen,
   ProfileScreen,
+  FormScreen,
+  OtpScreen,
 };

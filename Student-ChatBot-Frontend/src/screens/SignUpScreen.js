@@ -1,4 +1,4 @@
-import {
+  import {
   View,
   Text,
   TouchableOpacity,
@@ -238,10 +238,10 @@ const SignUpScreen = () => {
               Register
             </Text>
           </TouchableOpacity>
-          <Text className="text-center my-5 text-lg text-primary">
+          {/* <Text className="text-center my-5 text-lg text-primary">
             or continue with
-          </Text>
-          <TouchableOpacity className="justify-center items-center bg-white rounded-full flex-row border-2 border-primary">
+          </Text> */}
+          {/* <TouchableOpacity className="justify-center items-center bg-white rounded-full flex-row border-2 border-primary">
             <Image
               source={require("../assets/image/google.png")}
               className="h-5 w-5"
@@ -249,7 +249,7 @@ const SignUpScreen = () => {
             <Text className="text-primary text-2xl font-semibold text-center p-2.5">
               Google
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View className="flex-row justify-center items-center my-10 gap-x-1">
             <Text className="text-primary font-normal">
               Already have an account?
