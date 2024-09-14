@@ -244,30 +244,6 @@ app.post("/userdata", async (req, res) => {
   }
 });
 
-mongoose
-  .connect(mongoUrl)
-  .then(() => {
-    console.log("MongoDB connected");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-require("./FormData");
-
-app.port("/form", async (req, res) => {
-  const { city, colleges } = req.body;
-  try {
-    // Create new city
-    const newCity = new City({ city, colleges });
-    await newCity.save();
-    res.send({ status: "Ok", data: "CityData" });
-  } catch (e) {
-    res.send({ status: "Error", data: "Invalid" });
-  }
-});
-
-
 
 app.listen(post, () => {
   console.log(`Server is running on port ${post}`);

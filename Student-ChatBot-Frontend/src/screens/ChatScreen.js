@@ -45,6 +45,7 @@ const ChatScreen = () => {
     try {
       const response = await fetch(
         "https://student-chatbot-a8hx.onrender.com/chats",
+        // "http://192.168.216.252/chats",
         {
           method: "POST",
           headers: {
