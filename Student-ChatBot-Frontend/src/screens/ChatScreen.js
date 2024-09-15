@@ -6,6 +6,7 @@ import {
   Send,
   InputToolbar,
 } from "react-native-gifted-chat";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
 import { Image as ExpoImage } from "expo-image";
 import { Image } from "react-native";
@@ -98,7 +99,7 @@ const ChatScreen = () => {
   };
 
   return (
-    <View className="flex-1 bg-white p-2">
+    <SafeAreaView className="flex-1 bg-white p-2">
       <View className=" justify-center">
         <Text className="text-3xl font-semibold text-primary text-center">
           Chat
@@ -170,7 +171,7 @@ const ChatScreen = () => {
           avatar: "https://placehold.co/60", // Optional: User's avatar
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

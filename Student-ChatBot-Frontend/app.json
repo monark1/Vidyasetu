@@ -16,6 +16,9 @@
     },
     "android": {
       "package": "com.white728.StudentChatBotFrontend"
+    },
+    "ios": {
+      "bundleIdentifier": "com.white728.StudentChatBotFrontend"
     }
   }
 }
