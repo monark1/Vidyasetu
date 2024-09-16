@@ -9,6 +9,7 @@ import {
   ProfileScreen,
   FormScreen,
   OtpScreen,
+  PanalScreen,
 } from "../screens";
 import { useEffect, useState } from "react";
 import { getItem } from "../utils/asyncStorage";
@@ -34,10 +35,8 @@ const AppNavigation = () => {
       <Stack.Navigator
         // initialRouteName="Login" //this for testing
         // initialRouteName={IsLogin ? "Home" : "Login"}
-        initialRouteName="Onboarding"
-      >
-        <Stack.Screen
-          name="Login"
+        initialRouteName="Panal0" >
+        <Stack.Screen name="Login"
           options={{ headerShown: false }}
           component={LoginScreen}
         />
@@ -75,6 +74,11 @@ const AppNavigation = () => {
         name="Otp"
         options={{headerShown:false}}
         component={OtpScreen}
+        />
+        <Stack.Screen
+        name="Panal"
+        options={{headerShown:false}}
+        component={PanalScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

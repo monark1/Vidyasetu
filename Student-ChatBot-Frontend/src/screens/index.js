@@ -6,6 +6,7 @@ import ChatScreen from "./ChatScreen";
 import ProfileScreen from "./ProfileScreen";
 import FormScreen from "./FormScreen";
 import OtpScreen from "./OtpScreen";
+import PanalScreen from "./PanalScreen";
 export {
   HomeScreen,
   LoginScreen,
@@ -15,4 +16,5 @@ export {
   ProfileScreen,
   FormScreen,
   OtpScreen,
+  PanalScreen,
 };
