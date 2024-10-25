@@ -63,6 +63,7 @@ const PanalScreen = () => {
             <FontAwesome6 name="user-gear" size={32} color="black" />
           </TouchableOpacity>
           <Text className="text-center font-semibold text-xl">Gov</Text>
+          <Text className="text-center font-semibold text-xl">Admin</Text>
         </View>
         <View>
           <TouchableOpacity className="rounded-full h-20 w-20 justify-center items-center bg-gray-300"

@@ -60,8 +60,9 @@ const LoginScreen = () => {
         if (res.data.status === "Ok") {
           Alert.alert("Otp Send On Gmail");
           AsyncStorage.setItem("token", res.data.data);
-          AsyncStorage.setItem("login",isLogin)
-          AsyncStorage.setItem("email",email);
+          AsyncStorage.setItem("login", isLogin)
+          AsyncStorage.setItem("acType", acType);
+          AsyncStorage.setItem("email", email);
           setItem("isLogin", "true");
           navigation.navigate("OtpPassword");
         } else {

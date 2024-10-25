@@ -16,6 +16,7 @@ const OtpPassword = () => {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [isLogin, setIsLogin] = useState("");
     const [stLogin, setStLogin] = useState("login");
+    const [acType, setAcType] = useState("");
     const [login, setLogin] = useState(true);
     const navigation = useNavigation();
     const handleGoBack = () => {
@@ -29,14 +30,20 @@ const OtpPassword = () => {
         }
         console.log(userData);
         axios
-            .post("https://student-chatbot-a8hx.onrender.com/otpverify"||"http://192.168.225.123:5001/otpverify", userData)
+            .post("https://student-chatbot-a8hx.onrender.com/otpverify" || "http://192.168.225.123:5001/otpverify", userData)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.status === "Ok") {
                     Alert.alert("Otp Verified");
-                    if (isLogin) {
+                    if (isLogin == login) {
                         AsyncStorage.setItem("isLoginIN", JSON.stringify(true));
-                        navigation.navigate("Profile");
+                        if (acType == "Student") {
+                            navigation.navigate("Profile");
+                        } else if(acType == "admin") {
+                            navigation.navigate("AdminHome")
+                        } else if (acType == "college"){
+                            navigation.navigate("CollegeForm")
+                        }
                     } else {
                         navigation.navigate("ChangePassword");
                     }
@@ -50,7 +57,7 @@ const OtpPassword = () => {
             email: email,
         }
         axios
-            .post("https://student-chatbot-a8hx.onrender.com/otpResend",userData)
+            .post("https://student-chatbot-a8hx.onrender.com/otpResend", userData)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.status === "Ok") {
@@ -66,6 +73,9 @@ const OtpPassword = () => {
         })
         AsyncStorage.getItem("isLogin").then((value) => {
             setIsLogin(value);
+        })
+        AsyncStorage.getItem("acType").then((value) => {
+            setAcType(value);
         })
         console.log(isLogin);
     }, [])

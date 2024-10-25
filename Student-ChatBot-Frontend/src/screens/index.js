@@ -32,4 +32,5 @@ export {
   OtpPassword,
   ChangePassword,
   CollegeForm,
+  AdminHome,
 };

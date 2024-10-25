@@ -360,13 +360,47 @@ app.post("/reset", async (req, res) => {
 const CollegeForm = mongoose.model("CollegeForm");
 
 app.post("/collegeform", async (req, res) => {
-  try {
-    const newCollegeForm = new CollegeForm(req.body);
-    await newCollegeForm.save();
-    res.send({ status: "Ok", data: "College form submitted" });
-  } catch (error) {
-    res.status(400).send(error);
-  }
+  const {
+    collegename,
+    collegecode,
+    collegelocation,
+    collegedepartments,
+    collegewebsite,
+    collegeemail,
+    collegephone,
+    collegeperson,
+    collegefacilities,
+    branchename,
+    branchefee,
+    brancheplacements,
+    branchescholarship,
+    branchefacilities,
+  } = req.body;
+
+  const newCollegeForm = new CollegeForm({
+    collegename,
+    collegecode,
+    collegelocation,
+    collegedepartments,
+    collegewebsite,
+    collegeemail,
+    collegephone,
+    collegeperson,
+    collegefacilities,
+    branchename,
+    branchefee,
+    brancheplacements,
+    branchescholarship,
+    branchefacilities,
+  });
+
+  newCollegeForm.save().then((data) => {
+    res.send({ status: "Ok", data: data });
+  });
+
+  // res.send({ status: "Ok", data: req.body });
+
+  
 });
 
 

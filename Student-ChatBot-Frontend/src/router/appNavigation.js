@@ -38,9 +38,9 @@ const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      //  initialRouteName="Home" //this for testing
-      // initialRouteName={login ? "Home" : "Onboarding"}
-      initialRouteName="CollegeForm"
+        //  initialRouteName="Home" //this for testing
+        // initialRouteName={login ? "Home" : "Onboarding"}
+        initialRouteName=""
       >
         <Stack.Screen
           name="Onboarding"
@@ -120,6 +120,11 @@ const AppNavigation = () => {
           name="CollegeForm"
           options={{ headerShown: false }}
           component={CollegeForm}
+        />
+        <Stack.Screen
+          name="AdminHome"
+          options={{ headerShown: false }}
+          component={AdminHome}
         />
       </Stack.Navigator>
     </NavigationContainer>

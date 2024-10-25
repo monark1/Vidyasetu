@@ -47,8 +47,9 @@ const CollegeLogin = () => {
         if (res.data.status === "Ok") {
           Alert.alert("Otp Send On Gmail");
           AsyncStorage.setItem("token", res.data.data);
-          AsyncStorage.setItem("login",isLogin)
-          AsyncStorage.setItem("email",email);
+          AsyncStorage.setItem("acType", acType);
+          AsyncStorage.setItem("login", isLogin)
+          AsyncStorage.setItem("email", email);
           navigation.navigate("OtpPassword");
         } else {
           Alert.alert("Login Failed", JSON.stringify(res.data));
