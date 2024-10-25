@@ -29,11 +29,11 @@ const OtpPassword = () => {
         }
         console.log(userData);
         axios
-            .post("http://192.168.225.123:5001/otpverify", userData)
+            .post("https://student-chatbot-a8hx.onrender.com/otpverify"||"http://192.168.225.123:5001/otpverify", userData)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.status === "Ok") {
-                    Alert.alert("Otp Verified", "Please change your password");
+                    Alert.alert("Otp Verified");
                     if (isLogin) {
                         AsyncStorage.setItem("isLoginIN", JSON.stringify(true));
                         navigation.navigate("Profile");
@@ -46,12 +46,11 @@ const OtpPassword = () => {
             })
     }
     const handleResendCode = () => {
-        // console.log("Resend Code");
         const userData = {
             email: email,
         }
         axios
-            .post("http://192.168.225.123:5001/otpResend", userData)
+            .post("https://student-chatbot-a8hx.onrender.com/otpResend",userData)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.status === "Ok") {

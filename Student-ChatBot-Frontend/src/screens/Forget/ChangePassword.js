@@ -41,7 +41,7 @@ const ChangePassword = () => {
         }
         console.log(userData);
         axios
-            .post("http://192.168.225.123:5001/reset", userData)
+            .post("https://student-chatbot-a8hx.onrender.com/reset"||"http://192.168.225.123:5001/reset", userData)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.status === "Ok") {

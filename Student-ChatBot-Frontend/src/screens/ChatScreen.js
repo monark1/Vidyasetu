@@ -45,7 +45,7 @@ const ChatScreen = () => {
     // Send the new message to your API
     try {
       const response = await fetch(
-        // "https://student-chatbot-a8hx.onrender.com/chats",
+        "https://student-chatbot-a8hx.onrender.com/chat" ||
         "http://192.168.225.123:5001/chat",
         {
           method: "POST",

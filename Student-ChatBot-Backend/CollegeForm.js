@@ -32,4 +32,4 @@ const CollegeFormSchema = new mongoose.Schema(
     }
 );
 
-const CollegeForm = mongoose.model("CollegeForm", CollegeFormSchema);
+module.exports = mongoose.model("CollegeForm", CollegeFormSchema);

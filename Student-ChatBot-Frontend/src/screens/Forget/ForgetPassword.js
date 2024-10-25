@@ -33,8 +33,8 @@ const ForgetPassword = () => {
     }
     console.log(email);
     axios
-      // .post("https://student-chatbot-a8hx.onrender.com/forget", userData)
-      .post("http://192.168.225.123:5001/forget", userData)
+      .post("https://student-chatbot-a8hx.onrender.com/forget", userData)
+      // .post("http://192.168.225.123:5001/forget", userData)
       .then((res) => {
         console.log(res.data);
         if (res.data.status === "Ok") {

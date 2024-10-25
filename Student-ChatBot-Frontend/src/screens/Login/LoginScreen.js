@@ -53,14 +53,15 @@ const LoginScreen = () => {
     };
     console.log(email, password);
     axios
-      // .post("https://student-chatbot-a8hx.onrender.com/login", userData)
-      .post("http://192.168.225.123:5001/login",userData)
+      .post("https://student-chatbot-a8hx.onrender.com/login", userData)
+      // .post("http://192.168.225.123:5001/login",userData)
       .then((res) => {
         console.log(res.data);
         if (res.data.status === "Ok") {
-          Alert.alert("Otp Send On Gna");
+          Alert.alert("Otp Send On Gmail");
           AsyncStorage.setItem("token", res.data.data);
           AsyncStorage.setItem("login",isLogin)
+          AsyncStorage.setItem("email",email);
           setItem("isLogin", "true");
           navigation.navigate("OtpPassword");
         } else {

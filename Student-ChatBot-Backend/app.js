@@ -357,17 +357,17 @@ app.post("/reset", async (req, res) => {
   return res.send({ status: "Ok", data: "Password reset successful" });
 })
 
-// const CollegeForm = mongoose.model("CollegeForm");
+const CollegeForm = mongoose.model("CollegeForm");
 
-// app.post("/collegeform", async (req, res) => {
-//   try {
-//     const newCollegeForm = new CollegeForm(req.body);
-//     await newCollegeForm.save();
-//     res.send({ status: "Ok", data: "College form submitted" });
-//   } catch (error) {
-//     res.status(400).send(error);
-//   }
-// });
+app.post("/collegeform", async (req, res) => {
+  try {
+    const newCollegeForm = new CollegeForm(req.body);
+    await newCollegeForm.save();
+    res.send({ status: "Ok", data: "College form submitted" });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
 
 app.listen(post, () => {
