@@ -54,7 +54,11 @@ const CollegeForm = () => {
   const handleSubmit = async (values) => {
     console.log(values);
     axios
-    .post("http://192.168.225.123:5001/collegeform", values)
+    .post(
+      "https://student-chatbot-a8hx.onrender.com/collegeform"
+      //  ||
+      //  "http://192.168.225.123:5001/collegeform" 
+       ,values)
     .then((res) => {
       console.log(res.data);
       if (res.data.status === "Ok") {
