@@ -20,12 +20,12 @@ const FormScreen = () => {
   };
 
   const handleSubmit = async () => {
-    try{
+    try {
       axios
         .port(
           ""
         )
-    }catch(e){
+    } catch (e) {
 
     }
   }

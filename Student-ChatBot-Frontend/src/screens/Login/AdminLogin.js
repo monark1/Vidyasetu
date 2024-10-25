@@ -1,30 +1,22 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Image,
-  Dimensions,
-  Alert,
-  ScrollView,
-} from "react-native";
-import waiting from "../components/waiting";
-import { useState } from "react";
-import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
-import LottieView from "lottie-react-native";
-import { setItem } from "../utils/asyncStorage";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import { View, Text, TouchableOpacity, TextInput, Image, Dimensions, Alert, ScrollView } from 'react-native'
+import LottieView from 'lottie-react-native'
+import { useState, useEffect } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
+import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window')
 
-const LoginScreen = () => {
+const AdminLogin = () => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [waiting, setWaiting] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [acType, setAcType] = useState("admin");
+  const [isLogin, setIsLogin] = useState("login");
+
   const navigation = useNavigation();
 
   const handleGoBack = () => {
@@ -33,12 +25,17 @@ const LoginScreen = () => {
   };
 
   const handleSignUp = () => {
-    navigation.navigate("SignUp");
+    navigation.navigate("AdminSignUp");
   };
 
   const handleHomeWithOutLogin = () => {
     navigation.navigate("Home");
   };
+
+  const handleForgetPassword = () => {
+    navigation.navigate("ForgetPassword");
+    AsyncStorage.setItem("acType", acType);
+  }
 
   const handleSubmit = () => {
     const userData = {
@@ -47,14 +44,15 @@ const LoginScreen = () => {
     };
     console.log(email, password);
     axios
-      .post("https://student-chatbot-a8hx.onrender.com/login", userData)
+      // .post("https://student-chatbot-a8hx.onrender.com/login", userData)
+      .post("http:// 192.168.225.123:5001/login",userData)
       .then((res) => {
         console.log(res.data);
         if (res.data.status === "Ok") {
           Alert.alert("Login Successfull");
           AsyncStorage.setItem("token", res.data.data);
-          setItem("isLogin", "true");
-          navigation.navigate("Profile");
+          AsyncStorage.setItem("login",isLogin)
+          navigation.navigate("OtpPassword");
         } else {
           Alert.alert("Login Failed", JSON.stringify(res.data));
         }
@@ -66,14 +64,14 @@ const LoginScreen = () => {
       {waiting ? (
         <View className="justify-center items-center flex-1">
           <LottieView
-            source={require("../assets/lottie/waiting.json")}
+            source={require("../../assets/lottie/waiting.json")}
             style={{
-              width:width,
-              height:width,
-            }} 
+              width: width,
+              height: width,
+            }}
             autoPlay
             loop
-            />
+          />
         </View>
       ) : (
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
@@ -86,17 +84,15 @@ const LoginScreen = () => {
           <View className="my-5">
             <Text className="text-3xl font-semibold text-primary">Hey ,</Text>
             <Text className="text-3xl font-semibold text-primary">Welcome</Text>
-            <Text className="text-3xl font-semibold text-primary">
-              Students
-            </Text>
+            <Text className="text-3xl font-semibold text-primary">Admin</Text>
             <LottieView
-              source={require("../assets/lottie/5.json")}
+              source={require("../../assets/lottie/11.json")}
               className="absolute"
               style={{
-                width: width * 0.7,
+                width: width * 0.5,
                 height: width * 1,
                 top: height / 2 - width * 1.4,
-                right: height / 2 - width * 1.1,
+                right: height / 2 - width * 1,
               }}
               autoPlay
               loop
@@ -129,7 +125,7 @@ const LoginScreen = () => {
                 <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity className="">
+            <TouchableOpacity onPress={handleForgetPassword}>
               <Text className="text-primary text-right font-semibold my-2.5">
                 Forgot Password?
               </Text>
@@ -168,19 +164,10 @@ const LoginScreen = () => {
               </TouchableOpacity>
               {/* Gaust Login */}
             </View>
-            <TouchableOpacity
-              className="justify-center items-center bg-primary rounded-full mt-5"
-              onPress={handleHomeWithOutLogin}
-            >
-              <Text className="text-white text-2xl font-semibold text-center p-2.5">
-                Guest
-              </Text>
-            </TouchableOpacity>
           </View>
         </ScrollView>
       )}
     </SafeAreaView>
   );
-};
-
-export default LoginScreen;
+}
+export default AdminLogin

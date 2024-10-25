@@ -2,53 +2,50 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   HomeScreen,
-  LoginScreen,
-  SignUpScreen,
   OnboardingScreen,
   ChatScreen,
   ProfileScreen,
   FormScreen,
-  OtpScreen,
   PanalScreen,
+  LoginScreen,
+  CollegeLogin,
+  AdminLogin,
+  SignUpScreen,
+  AdminSignUp,
+  CollegeSignUp,
+  ForgetPassword,
+  OtpPassword,
+  ChangePassword,
+  AdminHome,
+  CollegeForm,
 } from "../screens";
 import { useEffect, useState } from "react";
-import { getItem } from "../utils/asyncStorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
-  const [IsLogin, setIsLogin] = useState(false);
-
-  const checkLogin = async () => {
-    let login = await getItem("isLogin");
-    // console.log(login);
-    setIsLogin(login);
-    // console.log("IsLogin", IsLogin);
-  };
-
+  const [login, setLogin] = useState(true);
+  const check = async () => {
+    const value = await AsyncStorage.getItem("isLoginIN");
+    setLogin(value);
+  }
   useEffect(() => {
-    checkLogin();
+    check();
+    // console.log(login);
   }, []);
-
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Login" //this for testing
-        // initialRouteName={IsLogin ? "Home" : "Login"}
-        initialRouteName="Panal0" >
-        <Stack.Screen name="Login"
-          options={{ headerShown: false }}
-          component={LoginScreen}
-        />
+      //  initialRouteName="Home" //this for testing
+      // initialRouteName={login ? "Home" : "Onboarding"}
+      initialRouteName="Onboarding"
+      >
         <Stack.Screen
           name="Onboarding"
           options={{ headerShown: false }}
           component={OnboardingScreen}
-        />
-        <Stack.Screen
-          name="SignUp"
-          options={{ headerShown: false }}
-          component={SignUpScreen}
         />
         <Stack.Screen
           name="Home"
@@ -71,14 +68,58 @@ const AppNavigation = () => {
           component={FormScreen}
         />
         <Stack.Screen
-        name="Otp"
-        options={{headerShown:false}}
-        component={OtpScreen}
+          name="Panal"
+          options={{ headerShown: false }}
+          component={PanalScreen}
+        />
+        <Stack.Screen name="Login"
+          options={{ headerShown: false }}
+          component={LoginScreen}
         />
         <Stack.Screen
-        name="Panal"
-        options={{headerShown:false}}
-        component={PanalScreen}
+          name="CollegeLogin"
+          options={{ headerShown: false }}
+          component={CollegeLogin}
+        />
+        <Stack.Screen
+          name="AdminLogin"
+          options={{ headerShown: false }}
+          component={AdminLogin}
+        />
+        <Stack.Screen
+          name="SignUp"
+          options={{ headerShown: false }}
+          component={SignUpScreen}
+        />
+        <Stack.Screen
+          name="AdminSignUp"
+          options={{ headerShown: false }}
+          component={AdminSignUp}
+        />
+        <Stack.Screen
+          name="CollegeSignUp"
+          options={{ headerShown: false }}
+          component={CollegeSignUp}
+        />
+        <Stack.Screen
+          name="ForgetPassword"
+          options={{ headerShown: false }}
+          component={ForgetPassword}
+        />
+        <Stack.Screen
+          name="OtpPassword"
+          options={{ headerShown: false }}
+          component={OtpPassword}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          options={{ headerShown: false }}
+          component={ChangePassword}
+        />
+        <Stack.Screen
+          name="CollegeForm"
+          options={{ headerShown: false }}
+          component={CollegeForm}
         />
       </Stack.Navigator>
     </NavigationContainer>

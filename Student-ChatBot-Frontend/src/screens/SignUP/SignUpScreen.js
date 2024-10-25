@@ -128,7 +128,7 @@ const SignUpScreen = () => {
           <Text className="text-3xl font-semibold text-primary">Let's Get</Text>
           <Text className="text-3xl font-semibold text-primary">Started</Text>
           <LottieView
-            source={require("../assets/lottie/8.json")}
+            source={require("../../assets/lottie/8.json")}
             className="absolute"
             style={{
               width: width * 0.5,
@@ -225,11 +225,6 @@ const SignUpScreen = () => {
               Uppercase, Lowercase, Number and 8 character long
             </Text>
           )}
-          <TouchableOpacity className="">
-            <Text className="text-primary text-right font-semibold my-2.5">
-              Forgot Password?
-            </Text>
-          </TouchableOpacity>
           <TouchableOpacity
             className="bg-primary rounded-full mt-5"
             onPress={handleSubmit}

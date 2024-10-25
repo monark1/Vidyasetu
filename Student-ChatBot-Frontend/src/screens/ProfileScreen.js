@@ -25,14 +25,18 @@ const ProfileScreen = () => {
   };
 
   const handleLogout = async () => {
-    // AsyncStorage.setItem("token",'');
-    AsyncStorage.setItem("isLogin",JSON.stringify(false));
-    navigation.navigate("Login");
+    AsyncStorage.setItem("isLoginIN",JSON.stringify(false));
+    navigation.navigate("Onboarding");
   }
 
   const handleDone = () => {
     navigation.navigate("Home");
   }
+
+  const handleGoBack = () => {
+    navigation.goBack();
+  }
+
   useEffect(() => {
     // console.log("Profile Screen");
     getUserData();
@@ -41,7 +45,7 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView className="flex-1 p-2 bg-white">
       <View className="flex-row justify-between">
-        <TouchableOpacity className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center ml-3 ">
+        <TouchableOpacity className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center ml-3 " onPress={handleGoBack}>
           <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
         </TouchableOpacity>
         <Text className="text-3xl font-semibold text-primary text-center">

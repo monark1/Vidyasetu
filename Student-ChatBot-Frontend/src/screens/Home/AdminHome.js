@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const OtpScreen = () => {
+const AdminHome = () => {
   return (
     <View>
-      <Text>OtpScreen</Text>
+      <Text>AdminHome</Text>
     </View>
   )
 }
 
-export default OtpScreen
+export default AdminHome

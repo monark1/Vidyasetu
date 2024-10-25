@@ -5,6 +5,7 @@ app.use(express.json());
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const nodemailer = require('nodemailer');
 require("dotenv").config();
 
 const post = process.env.PORT || 5001;
@@ -77,9 +78,8 @@ app.post("/chats", async (req, res) => {
         .map((college) => {
           return `Name: ${college.name}\n
           Website: ${college.website}
-          \nAddress: ${
-            college.place
-          }\nBranches: ${college.branches.join(", ")}`;
+          \nAddress: ${college.place
+            }\nBranches: ${college.branches.join(", ")}`;
         })
         .join("\n\n");
 
@@ -218,6 +218,24 @@ app.post("/login", async (req, res) => {
     return res.send({ status: "error", data: "User does not exist" });
   }
 
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  otpMap.set(email, otp);
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: 'Login OTP',
+    text: `Your OTP for login is ${otp}. It is valid for 10 minutes.`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.send({ status: "error", data: error.toString() });
+    } else {
+      return res.send({ status: "Ok", data: "OTP sent to email" });
+    }
+  });
+
   if (await bcrypt.compare(password, oldUser.password)) {
     const token = jwt.sign({ email: oldUser.email }, JWT_SECRET);
     if (res.status(201)) {
@@ -228,6 +246,10 @@ app.post("/login", async (req, res) => {
   } else {
     return res.send({ status: "Error", data: "Invalid password" });
   }
+
+  setTimeout(() => {
+    otpMap.delete(email);
+  }, 10 * 60 * 1000); // OTP expires in 10 minutes
 });
 
 app.post("/userdata", async (req, res) => {
@@ -243,6 +265,109 @@ app.post("/userdata", async (req, res) => {
     return res.send({ error: error });
   }
 });
+
+const otpMap = new Map();
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
+
+app.post("/forget", async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.send({ status: "error", data: "User does not exist" });
+  }
+
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  otpMap.set(email, otp);
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: 'Password Reset OTP',
+    text: `Your OTP for password reset is ${otp}. It is valid for 10 minutes.`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.send({ status: "error", data: error.toString() });
+    } else {
+      return res.send({ status: "Ok", data: "OTP sent to email" });
+    }
+  });
+
+  setTimeout(() => {
+    otpMap.delete(email);
+  }, 10 * 60 * 1000); // OTP expires in 10 minutes
+});
+
+app.post("/otpResend", async (req, res) => {
+  const { email } = req.body;
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  otpMap.set(email, otp);
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: 'Password Reset OTP',
+    text: `Your OTP for password reset is ${otp}. It is valid for 10 minutes.`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.send({ status: "error", data: error.toString() });
+    } else {
+      return res.send({ status: "Ok", data: "OTP sent to email" });
+    }
+  });
+
+  setTimeout(() => {
+    otpMap.delete(email);
+  }, 10 * 60 * 1000); // OTP expires in 10 minutes
+})
+
+app.post("/otpverify", async (req, res) => {
+  const { email, otp } = req.body;
+  const storedOtp = otpMap.get(email);
+
+  if (!storedOtp) {
+    return res.send({ status: "error", data: "OTP expired or invalid" });
+  }
+
+  if (storedOtp === otp) {
+    return res.send({ status: "Ok", data: "OTP verified" });
+  } else {
+    return res.send({ status: "error", data: "Invalid OTP" });
+  }
+})
+
+app.post("/reset", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.send({ status: "error", data: "User does not exist" });
+  }
+  const encyptedPassword = await bcrypt.hash(password, 10);
+  await User.updateOne({ email }, { password: encyptedPassword });
+  return res.send({ status: "Ok", data: "Password reset successful" });
+})
+
+// const CollegeForm = mongoose.model("CollegeForm");
+
+// app.post("/collegeform", async (req, res) => {
+//   try {
+//     const newCollegeForm = new CollegeForm(req.body);
+//     await newCollegeForm.save();
+//     res.send({ status: "Ok", data: "College form submitted" });
+//   } catch (error) {
+//     res.status(400).send(error);
+//   }
+// });
 
 
 app.listen(post, () => {

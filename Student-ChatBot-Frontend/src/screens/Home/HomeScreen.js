@@ -2,7 +2,6 @@ import { View, Text, TouchableOpacity, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { removeItem } from "../utils/asyncStorage";
 import { useState, useEffect } from "react";
 import LottieView from "lottie-react-native";
 import axios from "axios";
@@ -12,12 +11,14 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const handleGoBack = async () => {
     navigator.goBack();
-    // navigation.navigate("Onboarding")
-    // await removeItem("onboarding");
   };
 
   const handleChat = () => {
     navigation.navigate("Chat")
+  }
+
+  const handleMenu = () => {
+    navigation.navigate("Profile")
   }
 
   useEffect(() => {}, []);
@@ -34,12 +35,12 @@ const HomeScreen = () => {
         <Text className='font-semibold text-3xl text-center'>
           Home
         </Text>
-        <TouchableOpacity className='bg-gray-300 h-10 w-10 rounded-full justify-center items-center'>
+        <TouchableOpacity className='bg-gray-300 h-10 w-10 rounded-full justify-center items-center' onPress={handleMenu}>
           <Ionicons name="menu" size={32} color="#45484A"/>
         </TouchableOpacity>
       </View>
       <View className='justify-center items-center mt-3'>
-        <LottieView source={require('../assets/lottie/Robot.json')} className='w-[300px] h-[300px]'
+        <LottieView source={require('../../assets/lottie/Robot.json')} className='w-[300px] h-[300px]'
           autoPlay loop
          />
       </View>

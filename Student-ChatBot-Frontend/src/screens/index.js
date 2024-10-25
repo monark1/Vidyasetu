@@ -1,12 +1,20 @@
-import HomeScreen from "./HomeScreen";
-import LoginScreen from "./LoginScreen";
-import SignUpScreen from "./SignUpScreen";
+import HomeScreen from "./Home/HomeScreen";
+import SignUpScreen from "./SignUP/SignUpScreen";
 import OnboardingScreen from "./OnboardingScreen";
 import ChatScreen from "./ChatScreen";
 import ProfileScreen from "./ProfileScreen";
 import FormScreen from "./FormScreen";
-import OtpScreen from "./OtpScreen";
 import PanalScreen from "./PanalScreen";
+import CollegeLogin from "./Login/CollegeLogin";
+import AdminLogin from "./Login/AdminLogin";
+import LoginScreen from "./Login/LoginScreen";
+import AdminSignUp from "./SignUP/AdminSignUp";
+import CollegeSignUp from "./SignUP/CollegeSignUp";
+import ForgetPassword from "./Forget/ForgetPassword";
+import OtpPassword from "./Forget/OtpPassword";
+import ChangePassword from "./Forget/ChangePassword";
+import AdminHome from "./Home/AdminHome";
+import CollegeForm from "./Form/CollegeForm";
 export {
   HomeScreen,
   LoginScreen,
@@ -15,6 +23,13 @@ export {
   ChatScreen,
   ProfileScreen,
   FormScreen,
-  OtpScreen,
   PanalScreen,
+  CollegeLogin,
+  AdminLogin,
+  AdminSignUp,
+  CollegeSignUp,
+  ForgetPassword,
+  OtpPassword,
+  ChangePassword,
+  CollegeForm,
 };
