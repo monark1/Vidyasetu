@@ -54,7 +54,7 @@ const AdminLogin = () => {
           AsyncStorage.setItem("acType", acType);
           AsyncStorage.setItem("login", isLogin)
           AsyncStorage.setItem("email", email);
-          navigation.navigate("OtpPassword");
+          navigation.navigate("OtpVerify");
         } else {
           Alert.alert("Login Failed", JSON.stringify(res.data));
         }

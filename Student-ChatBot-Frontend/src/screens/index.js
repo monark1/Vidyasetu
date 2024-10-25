@@ -15,6 +15,7 @@ import OtpPassword from "./Forget/OtpPassword";
 import ChangePassword from "./Forget/ChangePassword";
 import AdminHome from "./Home/AdminHome";
 import CollegeForm from "./Form/CollegeForm";
+import OtpVerfiy from "./OtpVerfiy";
 export {
   HomeScreen,
   LoginScreen,
@@ -33,4 +34,5 @@ export {
   ChangePassword,
   CollegeForm,
   AdminHome,
+  OtpVerfiy,
 };

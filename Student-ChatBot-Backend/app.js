@@ -357,50 +357,38 @@ app.post("/reset", async (req, res) => {
   return res.send({ status: "Ok", data: "Password reset successful" });
 })
 
-const CollegeForm = mongoose.model("CollegeForm");
+const CollegeForm = mongoose.model("CollegeInfo");
 
 app.post("/collegeform", async (req, res) => {
-  const {
-    collegename,
-    collegecode,
-    collegelocation,
-    collegedepartments,
-    collegewebsite,
-    collegeemail,
-    collegephone,
-    collegeperson,
-    collegefacilities,
-    branchename,
-    branchefee,
-    brancheplacements,
-    branchescholarship,
-    branchefacilities,
-  } = req.body;
-
-  const newCollegeForm = new CollegeForm({
-    collegename,
-    collegecode,
-    collegelocation,
-    collegedepartments,
-    collegewebsite,
-    collegeemail,
-    collegephone,
-    collegeperson,
-    collegefacilities,
-    branchename,
-    branchefee,
-    brancheplacements,
-    branchescholarship,
-    branchefacilities,
-  });
-
-  newCollegeForm.save().then((data) => {
-    res.send({ status: "Ok", data: data });
-  });
-
-  // res.send({ status: "Ok", data: req.body });
-
-  
+  const { collegeName, collegeCode, collegeLocation, numberOfDepartments, collegeEmail, collegePhone, collegeWebsite, collegePerson, collegeFacilities, coursesName, courseDuration, branchName, fee, placements, facilities, eligibility, scholarship } = req.body;
+  const oldCollege = await CollegeForm.findOne({ collegeName: req.body.collegeName });
+  if (oldCollege) {
+    return res.send({ status: "error", data: "College already exists" });
+  }
+  try {
+    await CollegeForm.create({
+      collegeName: collegeName,
+      collegeCode: collegeCode,
+      collegeLocation: collegeLocation,
+      numberOfDepartments: numberOfDepartments,
+      collegeEmail: collegeEmail,
+      collegePhone: collegePhone,
+      collegeWebsite: collegeWebsite,
+      collegePerson: collegePerson,
+      collegeFacilities: collegeFacilities,
+      coursesName: coursesName,
+      courseDuration: courseDuration,
+      branchName: branchName,
+      fee: fee,
+      placements: placements,
+      facilities: facilities,
+      eligibility: eligibility,
+      scholarship: scholarship,
+    });
+    res.send({ status: "Ok", data: "College created" });
+  } catch (err) {
+    res.send({ status: "error", data: err });
+  }
 });
 
 

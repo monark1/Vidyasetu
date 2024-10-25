@@ -64,7 +64,7 @@ const LoginScreen = () => {
           AsyncStorage.setItem("acType", acType);
           AsyncStorage.setItem("email", email);
           setItem("isLogin", "true");
-          navigation.navigate("OtpPassword");
+          navigation.navigate("OtpVerify");
         } else {
           Alert.alert("Login Failed", JSON.stringify(res.data));
         }
