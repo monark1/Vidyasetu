@@ -32,6 +32,7 @@ const CollegeForm = () => {
   const [placements, setPlacements] = useState("");
   const [facilities, setFacilities] = useState("");
   const [scholarship, setScholarship] = useState("");
+  const [city, setCity] = useState("");
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
@@ -45,6 +46,7 @@ const CollegeForm = () => {
       collegeEmail: collegeEmail,
       collegePhone: collegePhone,
       collegeWebsite: collegeWebsite,
+      city: city,
       collegePerson: collegePerson,
       collegeFacilities: collegeFacilities,
       courseName: courseName,
@@ -131,9 +133,15 @@ const CollegeForm = () => {
             className="border-b border-gray-400 mb-4"
             onChange={(e) => setCollegeWebsite(e.nativeEvent.text)}
           />
-          <Text className="text-lg font-bold">College Preson</Text>
+          <Text className="text-lg font-bold">College City</Text>
           <TextInput
-            placeholder="Enter College Preson"
+            placeholder="Enter College City"
+            className="border-b border-gray-400 mb-4"
+            onChange={(e) => setCity(e.nativeEvent.text)}
+            />
+          <Text className="text-lg font-bold">College Director</Text>
+          <TextInput
+            placeholder="Enter College Director Name"
             className="border-b border-gray-400 mb-4"
             onChange={(e) => setCollegePerson(e.nativeEvent.text)}
           />

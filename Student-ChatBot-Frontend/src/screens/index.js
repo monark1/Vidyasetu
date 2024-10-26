@@ -16,6 +16,9 @@ import ChangePassword from "./Forget/ChangePassword";
 import AdminHome from "./Home/AdminHome";
 import CollegeForm from "./Form/CollegeForm";
 import OtpVerfiy from "./OtpVerfiy";
+import CollegeManagement from "./Admin/CollegeManagement";
+import DataVerify from "./Admin/DataVerify";
+import ReportAnalytics from "./Admin/ReportAnalytics";
 export {
   HomeScreen,
   LoginScreen,
@@ -35,4 +38,7 @@ export {
   CollegeForm,
   AdminHome,
   OtpVerfiy,
+  CollegeManagement,
+  DataVerify,
+  ReportAnalytics
 };

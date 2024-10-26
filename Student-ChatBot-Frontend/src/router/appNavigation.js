@@ -19,6 +19,9 @@ import {
   AdminHome,
   CollegeForm,
   OtpVerfiy,
+  CollegeManagement,
+  DataVerify,
+  ReportAnalytics,
 } from "../screens";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -41,7 +44,7 @@ const AppNavigation = () => {
       <Stack.Navigator
         //  initialRouteName="Home" //this for testing
         // initialRouteName={login ? "Home" : "Onboarding"}
-        initialRouteName="Chat"
+        // initialRouteName="CollegeManagement"
       >
         <Stack.Screen
           name="Onboarding"
@@ -131,6 +134,21 @@ const AppNavigation = () => {
           name="OtpVerify"
           options={{ headerShown: false }}
           component={OtpVerfiy}
+        />
+        <Stack.Screen
+          name="CollegeManagement"
+          options={{ headerShown: false }}
+          component={CollegeManagement}
+        />
+        <Stack.Screen
+          name="DataVerify"
+          options={{ headerShown: false }}
+          component={DataVerify}
+        />
+        <Stack.Screen
+          name="ReportAnalytics"
+          options={{ headerShown: false }}
+          component={ReportAnalytics}
         />
       </Stack.Navigator>
     </NavigationContainer>

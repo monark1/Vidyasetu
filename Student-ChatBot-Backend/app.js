@@ -224,13 +224,27 @@ app.post("/chatss", async (req, res) => {
     const city = userMessage;
 
     // Query MongoDB to find colleges by city
-    const collegesInCity = await College.find({ city });
+    const collegesInCity = await CollegeForm.find({ city });
 
     // Check if colleges are found in MongoDB
     if (collegesInCity.length > 0) {
       const collegeDetails = collegesInCity
         .map((college) => {
-          return `Name: ${college.name}\nAddress: ${college.place}\nBranches: ${college.branches.join(", ")}`;
+          return `
+          Name: ${college.collegeName}\n
+          Code: ${college.collegeCode}\n
+          Location: ${college.collegeLocation}\n
+          Departments: ${college.numberOfDepartments}\n
+          Email: ${college.collegeEmail}\n
+          Phone: ${college.collegePhone}\n
+          Website: ${college.collegeWebsite}\n
+          Person: ${college.collegePerson}\n
+          Duration: ${college.courseDuration}\n
+          Branches: ${college.branchName}\n
+          Fee: ${college.fee}\n
+          Placements: ${college.placements}\n
+          Scholarship: ${college.scholarship}\n
+          `;
         })
         .join("\n\n");
 
@@ -251,7 +265,7 @@ app.post("/chatss", async (req, res) => {
       // const agentResponse = await submitQuery(sessionId, city);
       const result = await axios.post(`https://api.on-demand.io/chat/v1/sessions/${sessionId}/query`, {
         endpointId: 'predefined-openai-gpt4o',
-        query: `Could you provide information on polytechnic colleges in ${city}?`,
+        query: `${city}?`,
         pluginIds: ['plugin-1712327325', 'plugin-1713962163', 'plugin-1729879193'],
         responseMode: 'sync'
       }, {
@@ -515,7 +529,7 @@ app.post("/reset", async (req, res) => {
 const CollegeForm = mongoose.model("CollegeInfo");
 
 app.post("/collegeform", async (req, res) => {
-  const { collegeName, collegeCode, collegeLocation, numberOfDepartments, collegeEmail, collegePhone, collegeWebsite, collegePerson, collegeFacilities, coursesName, courseDuration, branchName, fee, placements, facilities, eligibility, scholarship } = req.body;
+  const { collegeName, collegeCode, collegeLocation, numberOfDepartments, collegeEmail, collegePhone, collegeWebsite, collegePerson, collegeFacilities, coursesName, courseDuration, branchName, fee, placements, facilities, eligibility, scholarship, city } = req.body;
   const oldCollege = await CollegeForm.findOne({ collegeName: req.body.collegeName });
   if (oldCollege) {
     return res.send({ status: "error", data: "College already exists" });
@@ -529,6 +543,7 @@ app.post("/collegeform", async (req, res) => {
       collegeEmail: collegeEmail,
       collegePhone: collegePhone,
       collegeWebsite: collegeWebsite,
+      city: city,
       collegePerson: collegePerson,
       collegeFacilities: collegeFacilities,
       coursesName: coursesName,
