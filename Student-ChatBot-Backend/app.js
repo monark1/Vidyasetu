@@ -6,7 +6,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const nodemailer = require('nodemailer');
+const axios = require("axios");
 require("dotenv").config();
+
+const apikeyOnDemand = process.env.ONDEMAND_API_KEY;
 
 const post = process.env.PORT || 5001;
 
@@ -119,6 +122,158 @@ app.post("/chats", async (req, res) => {
     });
   }
 });
+
+// Replace with your actual API key and external user ID
+const externalUserId = 'Chirag';
+
+// Function to create a chat session
+async function createChatSession() {
+  try {
+    const response = await axios.post('https://api.on-demand.io/chat/v1/sessions', {
+      pluginIds: [],
+      externalUserId: externalUserId
+    }, {
+      headers: {
+        apikey: apikeyOnDemand
+      }
+    });
+
+    // Extract session ID from the response
+    const sessionId = response.data.data.id;
+    console.log('Session ID:', sessionId);
+    return sessionId;
+  } catch (error) {
+    console.error('Error creating chat session:', error);
+  }
+}
+
+// Function to submit a query using the session ID
+async function submitQuery(sessionId, city) {
+  try {
+    const response = await axios.post(`https://api.on-demand.io/chat/v1/sessions/${sessionId}/query`, {
+      endpointId: 'predefined-openai-gpt4o',
+      query: `Could you provide information on polytechnic colleges in ${city}?`,
+      pluginIds: ['plugin-1712327325', 'plugin-1713962163', 'plugin-1729879193'],
+      responseMode: 'sync'
+    }, {
+      headers: {
+        apikey: apikeyOnDemand
+      }
+    });
+
+    console.log('Query Response:', response.data);
+  } catch (error) {
+    console.error('Error submitting query:', error);
+  }
+}
+
+// Main function to execute the API calls
+let city = "Mumbai";
+async function main() {
+  const sessionId = await createChatSession();
+  if (sessionId) {
+    // await submitQuery(sessionId,city);
+    // await fetchFromAgent(sessionId, "");
+  }
+}
+main();
+
+
+// Ondemand API call to fetch data from agent
+// Function to fetch information from the on-demand API using the agent
+const fetchFromAgent = async (sessionId, city) => {
+  try {
+    const response = await axios.post(`https://api.on-demand.io/chat/v1/sessions/${sessionId}/query`, {
+      endpointId: 'predefined-openai-gpt4o',
+      query: `Could you provide information on polytechnic colleges in ${city}?`,
+      pluginIds: ['plugin-1712327325', 'plugin-1713962163', 'plugin-1729879193'],
+      responseMode: 'sync',
+      // message: `Could you provide information on polytechnic colleges in ${city}?`
+    },
+      {
+        headers: {
+          apikey: apikeyOnDemand
+        }
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error in on-demand API call:", error);
+    return {
+      status: "Error",
+      message: "Unable to fetch data from the agent."
+    };
+  }
+};
+
+app.post("/chatss", async (req, res) => {
+  try {
+    // Extract and normalize the user's message
+    const userMessage = req.body.message.trim().toLowerCase();
+
+    // Basic greeting response
+    if (userMessage === "hi" || userMessage === "hello") {
+      return res.send({
+        status: "Ok",
+        data: "May I help you?",
+      });
+    }
+
+    // Extract the city name from the user message
+    const city = userMessage;
+
+    // Query MongoDB to find colleges by city
+    const collegesInCity = await College.find({ city });
+
+    // Check if colleges are found in MongoDB
+    if (collegesInCity.length > 0) {
+      const collegeDetails = collegesInCity
+        .map((college) => {
+          return `Name: ${college.name}\nAddress: ${college.place}\nBranches: ${college.branches.join(", ")}`;
+        })
+        .join("\n\n");
+
+      const collegeImages = collegesInCity
+        .map((college) => `${college.img}`)
+        .join("\n\n");
+
+      // Return the college data found in MongoDB
+      return res.send({
+        status: "Ok",
+        data: collegeDetails,
+        dataImg: collegeImages,
+      });
+    } else {
+      // Call the on-demand agent API if no data found in MongoDB
+      const sessionId = await createChatSession();
+      // const agentResponse = await fetchFromAgent(sessionId,city);
+      // const agentResponse = await submitQuery(sessionId, city);
+      const result = await axios.post(`https://api.on-demand.io/chat/v1/sessions/${sessionId}/query`, {
+        endpointId: 'predefined-openai-gpt4o',
+        query: `Could you provide information on polytechnic colleges in ${city}?`,
+        pluginIds: ['plugin-1712327325', 'plugin-1713962163', 'plugin-1729879193'],
+        responseMode: 'sync'
+      }, {
+        headers: {
+          apikey: apikeyOnDemand
+        }
+      });
+      // Respond based on the agent API result
+      // const responseText = result.data.data.messages[0].content
+      const responseText = result.data.data.answer;
+      res.send({
+        status: "Ok",
+        data: responseText,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      status: "Error",
+      message: error.message,
+    });
+  }
+})
 
 // College Data System
 mongoose // connecting to the database for college data
