@@ -90,6 +90,7 @@ const SignUpScreen = () => {
       axios
         .post(
           "https://student-chatbot-a8hx.onrender.com/register",
+          // "http://192.168.31.130:5001/register",
           userData
         )
         .then((res) => {

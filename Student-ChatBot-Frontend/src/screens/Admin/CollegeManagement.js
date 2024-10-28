@@ -7,9 +7,20 @@ import LottieView from "lottie-react-native";
 
 const CollegeManagement = () => {
   return (
-   <SafeAreaView className='flex-1 bg-white'>
-
-   </SafeAreaView>
+    <SafeAreaView className='flex-1 bg-white'>
+      <View className=' items-center justify-between p-3 flex-row'>
+        <TouchableOpacity className='w-10 h-10 bg-gray-300 items-center justify-center rounded-full'>
+          <Ionicons name="arrow-back" size={24} color="#45484A" />
+        </TouchableOpacity>
+        <Text className='text-xl font-semibold'>College Management</Text>
+        <TouchableOpacity className='w-10 h-10 bg-gray-300 items-center justify-center rounded-full'>
+          <Ionicons name="menu" size={32} color="#45484A" />
+        </TouchableOpacity>
+      </View>
+      <View>
+        
+      </View>
+    </SafeAreaView>
   )
 }
 

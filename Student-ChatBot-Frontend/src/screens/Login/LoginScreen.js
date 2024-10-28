@@ -54,7 +54,7 @@ const LoginScreen = () => {
     console.log(email, password);
     axios
       .post("https://student-chatbot-a8hx.onrender.com/login", userData)
-      // .post("http://192.168.225.123:5001/login",userData)
+      // .post("http://192.168.31.130:5001/login",userData)
       .then((res) => {
         console.log(res.data);
         if (res.data.status === "Ok") {
