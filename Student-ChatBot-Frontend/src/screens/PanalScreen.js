@@ -4,6 +4,8 @@ import { Ionicons, FontAwesome6, FontAwesome5 } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { setItem } from "../utils/asyncStorage";
+import { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated from "react-native-reanimated"
 import React from "react";
 
 const { width, height } = Dimensions.get("window");
@@ -55,7 +57,9 @@ const PanalScreen = () => {
           loop
         />
       </View>
-      <View className="flex-row justify-between mt-3 p-5">
+      <Animated.View className="flex-row justify-between mt-3 p-5"
+        entering={FadeInDown.duration(1000).springify()}
+      >
         <View>
             <TouchableOpacity className="rounded-full h-20 w-20 justify-center items-center bg-gray-300"
             onPress={handleAdmin}
@@ -82,7 +86,7 @@ const PanalScreen = () => {
           </TouchableOpacity>
           <Text className="text-center font-semibold text-xl">Student</Text>
         </View>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 };

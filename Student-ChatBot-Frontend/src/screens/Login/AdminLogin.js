@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
+import Animated from 'react-native-reanimated'
+import { FadeInDown, FadeInUp } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { width, height } = Dimensions.get('window')
@@ -83,7 +85,7 @@ const AdminLogin = () => {
           >
             <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
           </TouchableOpacity>
-          <View className="my-5">
+          <Animated.View className="my-5" entering={FadeInUp.duration(1000).springify()}>
             <Text className="text-3xl font-semibold text-primary">Hey ,</Text>
             <Text className="text-3xl font-semibold text-primary">Welcome</Text>
             <Text className="text-3xl font-semibold text-primary">Admin</Text>
@@ -99,11 +101,13 @@ const AdminLogin = () => {
               autoPlay
               loop
             />
-          </View>
+          </Animated.View>
           {/* form */}
           <View className="mt-5">
             {/* Email */}
-            <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
+            <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+              entering={FadeInDown.duration(1000).springify()}
+            >
               <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
               <TextInput
                 className="flex-1 text-secondary px-2.5 font-light"
@@ -111,9 +115,11 @@ const AdminLogin = () => {
                 keyboardType="email-address"
                 onChange={(e) => setEmail(e.nativeEvent.text)}
               />
-            </View>
+            </Animated.View>
             {/* Password */}
-            <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
+            <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+              entering={FadeInDown.delay(200).duration(1000).springify()}
+            >
               <SimpleLineIcons name="lock" size={24} color="#AEB5BB" />
               <TextInput
                 className="flex-1 text-secondary px-2.5 font-light"
@@ -126,21 +132,26 @@ const AdminLogin = () => {
               >
                 <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
               </TouchableOpacity>
-            </View>
-            <TouchableOpacity onPress={handleForgetPassword}>
-              <Text className="text-primary text-right font-semibold my-2.5">
-                Forgot Password?
-              </Text>
-            </TouchableOpacity>
+            </Animated.View>
+            {/* Forget Password */}
+            <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} >
+              <TouchableOpacity onPress={handleForgetPassword}>
+                <Text className="text-primary text-right font-semibold my-2.5">
+                  Forgot Password?
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
             {/* Login Button */}
-            <TouchableOpacity
-              className="bg-primary rounded-full mt-5"
-              onPress={() => handleSubmit()}
-            >
-              <Text className="text-white text-2xl font-semibold text-center p-2.5">
-                Login
-              </Text>
-            </TouchableOpacity>
+            <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()}>
+              <TouchableOpacity
+                className="bg-primary rounded-full mt-5"
+                onPress={() => handleSubmit()}
+              >
+                <Text className="text-white text-2xl font-semibold text-center p-2.5">
+                  Login
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
             {/* <Text className="text-center my-5 text-lg text-primary">
               or continue with
             </Text> */}
@@ -154,7 +165,9 @@ const AdminLogin = () => {
                 Google
               </Text>
             </TouchableOpacity> */}
-            <View className="flex-row justify-center items-center my-10 gap-x-1">
+            <Animated.View className="flex-row justify-center items-center my-10 gap-x-1"
+              entering={FadeInDown.delay(800).duration(1000).springify()}
+            >
               <Text className="text-primary font-normal">
                 Don't have an account?
               </Text>
@@ -165,7 +178,7 @@ const AdminLogin = () => {
                 </Text>
               </TouchableOpacity>
               {/* Gaust Login */}
-            </View>
+            </Animated.View>
           </View>
         </ScrollView>
       )}
