@@ -23,7 +23,7 @@ const ChatScreen = () => {
     setMessages([
       {
         _id: 1,
-        text: "Welcome! Please enter the city name to get information about polytechnic colleges.",
+        text: "Welcome! I’m here to help you find B.Tech colleges in India.",
         createdAt: new Date(),
         user: {
           _id: 2,
@@ -45,8 +45,8 @@ const ChatScreen = () => {
     // Send the new message to your API
     try {
       const response = await fetch(
-        "https://student-chatbot-a8hx.onrender.com/chat",
-        // "http://192.168.31.130:5001/chat",
+        "https://student-chatbot-a8hx.onrender.com/chatollamas",
+        // "http://192.168.31.130:5001/chatollamas",
         {
           method: "POST",
           headers: {

@@ -44,7 +44,7 @@ const AppNavigation = () => {
       <Stack.Navigator
         //  initialRouteName="Home" //this for testing
         // initialRouteName={login ? "Home" : "Onboarding"}
-        // initialRouteName="CollegeManagement"
+        initialRouteName="Chat"
       >
         <Stack.Screen
           name="Onboarding"
