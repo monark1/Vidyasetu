@@ -45,109 +45,89 @@ const AppNavigation = () => {
         //  initialRouteName="Home" //this for testing
         // initialRouteName={login ? "Home" : "Onboarding"}
         initialRouteName="Chat"
+        screenOptions={{headerShown: false}}
       >
         <Stack.Screen
           name="Onboarding"
-          options={{ headerShown: false }}
           component={OnboardingScreen}
         />
         <Stack.Screen
           name="Home"
-          options={{ headerShown: false }}
           component={HomeScreen}
         />
         <Stack.Screen
           name="Profile"
-          options={{ headerShown: false }}
           component={ProfileScreen}
         />
         <Stack.Screen
           name="Chat"
-          options={{ headerShown: false }}
           component={ChatScreen}
         />
         <Stack.Screen
           name="Form"
-          options={{ headerShown: false }}
           component={FormScreen}
         />
         <Stack.Screen
           name="Panal"
-          options={{ headerShown: false }}
           component={PanalScreen}
         />
         <Stack.Screen name="Login"
-          options={{ headerShown: false }}
           component={LoginScreen}
         />
         <Stack.Screen
           name="CollegeLogin"
-          options={{ headerShown: false }}
           component={CollegeLogin}
         />
         <Stack.Screen
           name="AdminLogin"
-          options={{ headerShown: false }}
           component={AdminLogin}
         />
         <Stack.Screen
           name="SignUp"
-          options={{ headerShown: false }}
           component={SignUpScreen}
         />
         <Stack.Screen
           name="AdminSignUp"
-          options={{ headerShown: false }}
           component={AdminSignUp}
         />
         <Stack.Screen
           name="CollegeSignUp"
-          options={{ headerShown: false }}
           component={CollegeSignUp}
         />
         <Stack.Screen
           name="ForgetPassword"
-          options={{ headerShown: false }}
           component={ForgetPassword}
         />
         <Stack.Screen
           name="OtpPassword"
-          options={{ headerShown: false }}
           component={OtpPassword}
         />
         <Stack.Screen
           name="ChangePassword"
-          options={{ headerShown: false }}
           component={ChangePassword}
         />
         <Stack.Screen
           name="CollegeForm"
-          options={{ headerShown: false }}
           component={CollegeForm}
         />
         <Stack.Screen
           name="AdminHome"
-          options={{ headerShown: false }}
           component={AdminHome}
         />
         <Stack.Screen
           name="OtpVerify"
-          options={{ headerShown: false }}
           component={OtpVerfiy}
         />
         <Stack.Screen
           name="CollegeManagement"
-          options={{ headerShown: false }}
           component={CollegeManagement}
         />
         <Stack.Screen
           name="DataVerify"
-          options={{ headerShown: false }}
           component={DataVerify}
         />
         <Stack.Screen
           name="ReportAnalytics"
-          options={{ headerShown: false }}
           component={ReportAnalytics}
         />
       </Stack.Navigator>
