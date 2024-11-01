@@ -53,6 +53,7 @@ const App = () => {
   }, [0])
   return (
     <>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <AppNavigation />
       {toast && <ToartMessage title={toastTitle} des={toastDes} type={toastType} onPress={handleOnPress} />}
     </>

@@ -67,7 +67,7 @@ router.post('/login', async (req, res) => {
     if (await bcrypt.compare(password, oldUser.password)) {
         const token = jwt.sign({ email: oldUser.email }, JWT_SECRET);
         if (res.status(201)) {
-            return res.send({ status: "Ok", data: "Success" });
+            return res.send({ status: "Ok", data: "Success", token: token });
         } else {
             return res.send({ status: "error", data: "Invalid password" });
         }
