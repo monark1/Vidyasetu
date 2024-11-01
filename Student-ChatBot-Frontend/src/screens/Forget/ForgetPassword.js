@@ -8,6 +8,7 @@ import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getItem, setItem } from '../../utils/asyncStorage'
 import Animated from 'react-native-reanimated'
+import ToartMessage from '../../components/ToartMessage'
 import { FadeInDown, FadeInUp } from 'react-native-reanimated'
 
 const { width, height } = Dimensions.get('window')
@@ -16,6 +17,10 @@ const ForgetPassword = () => {
   const [email, setEmail] = useState("");
   const [acType, setAcType] = useState("");
   const [isLogin, setIsLogin] = useState("password");
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastTitle, setToastTitle] = useState("");
+  const [toastType, setToastType] = useState("");
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
@@ -29,6 +34,9 @@ const ForgetPassword = () => {
       navigation.navigate("SignUp");
     }
   }
+  const handleToast = () => {
+    setToast(false);
+  }
   const handleSubmit = async () => {
     const userData = {
       email: email,
@@ -39,22 +47,40 @@ const ForgetPassword = () => {
       // .post("http://192.168.225.123:5001/forget", userData)
       .then((res) => {
         console.log(res.data);
+        setToastType(res.data.status);
+        setToastMessage(res.data.data);
         if (res.data.status === "Ok") {
-          Alert.alert("Email Sent", "Please check your email for the OTP");
+          // Alert.alert("Email Sent", "Please check your email for the OTP");
+          setToastTitle("Otp Verified");
+          setToastMessage("Please check your email for the OTP");
+          setToast(true);
           AsyncStorage.setItem("email", email);
           AsyncStorage.setItem("isLogin", isLogin);
           setItem("email", email);
+          setTimeout(() => {
           navigation.navigate("OtpPassword");
+          },3000)
         } else {
-          Alert.alert("Email Not Sent", JSON.stringify(res.data));
+          // Alert.alert("Email Not Sent", JSON.stringify(res.data));
+          setToastTitle("Email Not Sent");
+          setToast(true);
         }
       })
   }
+
   useEffect(() => {
     AsyncStorage.getItem("acType").then((value) => {
       setAcType(value);
     })
   })
+
+  useEffect(() => {
+    if (toast) {
+      setTimeout(() => {
+        setToast(false);
+      }, 2000);
+    }
+  }, [toast])
   return (
     <SafeAreaView className='flex-1 bg-white p-5'>
       <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
@@ -121,6 +147,10 @@ const ForgetPassword = () => {
           </Animated.View>
         </View>
       </ScrollView>
+      {/* Toart Message */}
+      {
+        toast ? <ToartMessage title={toastTitle} des={toastMessage} onPress={handleToast} type={toastType} /> : null
+      }
     </SafeAreaView>
   )
 }

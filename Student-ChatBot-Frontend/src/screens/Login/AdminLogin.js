@@ -54,8 +54,8 @@ const AdminLogin = () => {
     };
     console.log(email, password);
     axios
-      .post("https://student-chatbot-a8hx.onrender.com/login" || "http:// 192.168.225.123:5001/login", userData)
-      // .post("http:// 192.168.225.123:5001/login",userData)
+      .post("https://student-chatbot-a8hx.onrender.com/login", userData)
+      // .post("http://192.168.31.130:5001/adminLogin",userData)
       .then((res) => {
         console.log(res.data);
         setToastType(res.data.status);        
@@ -64,7 +64,7 @@ const AdminLogin = () => {
           // Alert.alert("Otp Send On Gmail");
           setToastTitle("Otp Send On Gmail");
           setToast(true);
-          AsyncStorage.setItem("token", res.data.data);
+          AsyncStorage.setItem("token", res.data.token);
           AsyncStorage.setItem("acType", acType);
           AsyncStorage.setItem("login", isLogin)
           AsyncStorage.setItem("email", email);

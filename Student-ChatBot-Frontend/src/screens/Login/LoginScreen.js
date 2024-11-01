@@ -74,7 +74,7 @@ const LoginScreen = () => {
           // Alert.alert("Otp Send On Gmail");
           setToastTitle("Otp Send On Gmail");
           setToast(true);
-          AsyncStorage.setItem("token", res.data.data);
+          AsyncStorage.setItem("token", res.data.token);
           AsyncStorage.setItem("login", isLogin)
           AsyncStorage.setItem("acType", acType);
           AsyncStorage.setItem("email", email);
@@ -205,7 +205,7 @@ const LoginScreen = () => {
               </Text>
             </TouchableOpacity>
           </Animated.View>
-        </View>
+        </View> 
       </ScrollView>
       {/* Toart Message */}
       {

@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 import Animated from "react-native-reanimated";
 import { FadeInDown, FadeInUp } from "react-native-reanimated";
+import ToartMessage from "../../components/ToartMessage";
 import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
@@ -28,6 +29,16 @@ const CollegeSignUp = () => {
     const [emailVerify, setEmailVerify] = useState(false);
     const [password, setPassword] = useState("");
     const [passwordVerify, setPasswordVerify] = useState(false);
+    const [college, setCollege] = useState("");
+    const [collegeVerify, setCollegeVerify] = useState(false);
+    const [city, setCity] = useState("");
+    const [cityVerify, setCityVerify] = useState(false);
+
+    const [toast, setToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastTitle, setToastTitle] = useState("");
+    const [toastType, setToastType] = useState("");
+
 
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const navigation = useNavigation();
@@ -73,6 +84,15 @@ const CollegeSignUp = () => {
         }
     };
 
+    const handleCollege = (e) => {
+        const collegeVar = e.nativeEvent.text;
+        setCollege(collegeVar);
+        setCollegeVerify(false);
+        if (collegeVar.length > 1) {
+            setCollegeVerify(true);
+        }
+    }
+
     const handleLogin = () => {
         navigation.navigate("CollegeLogin");
     };
@@ -81,41 +101,68 @@ const CollegeSignUp = () => {
         navigation.goBack();
     };
 
+    const handleToast = () => {
+        setToast(false);
+    };
+
     const handleSubmit = () => {
         const userData = {
             name: name,
             phone,
             email,
             password,
+            college,
         };
-        if (nameVerify && phoneVerify && emailVerify && passwordVerify) {
+        if (nameVerify && phoneVerify && emailVerify && passwordVerify && collegeVerify) {
             axios
                 .post(
-                    "https://student-chatbot-a8hx.onrender.com/register",
+                    "https://student-chatbot-a8hx.onrender.com/registerCollege",
+                    // "http://192.168.31.130:5001/registerCollege",
                     userData
                 )
                 .then((res) => {
                     console.log(res.data);
+                    setToastType(res.data.status);
+                    setToastMessage(res.data.data);
                     if (res.data.status === "Ok") {
-                        Alert.alert("Success", "Register Success", [
-                            { text: "OK", onPress: () => handleLogin() },
-                        ]);
-                        navigation.navigate("Login");
+                        setToastTitle("Register Success");
+                        setToastMessage(res.data.userName);
+                        setToast(true);
+                        // Alert.alert("Success", "Register Success", [
+                        //   { text: "OK", onPress: () => handleLogin() },
+                        // ]);
+                        setTimeout(() => {
+                            navigation.navigate("CollegeLogin");
+                        },5000)
                     } else {
-                        Alert.alert("Error", JSON.stringify(res.data), [
-                            { text: "OK", onPress: () => console.log("OK Pressed") },
-                        ]);
+                        setToastTitle("Error");
+                        setToast(true);
+                        // Alert.alert("Error", JSON.stringify(res.data), [
+                        //   { text: "OK", onPress: () => console.log("OK Pressed") },
+                        // ]);
                     }
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         } else {
-            Alert.alert("Error", "Please fill the form correctly", [
-                { text: "OK", onPress: () => console.log("OK Pressed") },
-            ]);
+            // Alert.alert("Error", "Please fill the form correctly", [
+            //   { text: "OK", onPress: () => console.log("OK Pressed") },
+            // ]);
+            setToastTitle("Error");
+            setToastMessage("Please fill the form correctly");
+            setToastType("error");
+            setToast(true);
         }
     };
+
+    useEffect(() => {
+        if (toast) {
+            setTimeout(() => {
+                setToast(false);
+            }, 4000);
+        }
+    }, [toast])
 
     return (
         <SafeAreaView className="flex-1 bg-white p-5">
@@ -163,6 +210,27 @@ const CollegeSignUp = () => {
                     {name.length < 1 ? null : nameVerify ? null : (
                         <Text className="text-red-500 text-sm font-light">
                             Name should be more then 1 character
+                        </Text>
+                    )}
+                    {/* College form */}
+                    <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                        entering={FadeInDown.delay(100).duration(1000).springify()}
+                    >
+                        <Ionicons name="school-outline" size={24} color="#AEB5BB" />
+                        <TextInput
+                            className="flex-1 text-secondary px-2.5 font-light"
+                            placeholder="Enter your college name"
+                            onChange={(e) => handleCollege(e)} //college validation
+                        />
+                        {college.length < 1 ? null : collegeVerify ? (
+                            <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
+                        ) : (
+                            <Ionicons name="close" size={24} color="#AEB5BB" />
+                        )}
+                    </Animated.View>
+                    {college.length < 1 ? null : collegeVerify ? null : (
+                        <Text className="text-red-500 text-sm font-light">
+                            College name should be more then 1 character
                         </Text>
                     )}
                     {/* Phone form */}
@@ -235,6 +303,7 @@ const CollegeSignUp = () => {
                             Uppercase, Lowercase, Number and 8 character long
                         </Text>
                     )}
+                    {/* Register Button */}
                     <Animated.View
                         entering={FadeInDown.delay(800).duration(1000).springify()}>
                         <TouchableOpacity
@@ -246,18 +315,6 @@ const CollegeSignUp = () => {
                             </Text>
                         </TouchableOpacity>
                     </Animated.View>
-                    {/* <Text className="text-center my-5 text-lg text-primary">
-              or continue with
-            </Text> */}
-                    {/* <TouchableOpacity className="justify-center items-center bg-white rounded-full flex-row border-2 border-primary">
-              <Image
-                source={require("../assets/image/google.png")}
-                className="h-5 w-5"
-              />
-              <Text className="text-primary text-2xl font-semibold text-center p-2.5">
-                Google
-              </Text>
-            </TouchableOpacity> */}
                     <Animated.View className="flex-row justify-center items-center my-10 gap-x-1"
                         entering={FadeInDown.delay(900).duration(1000).springify()}
                     >
@@ -270,6 +327,10 @@ const CollegeSignUp = () => {
                     </Animated.View>
                 </View>
             </ScrollView>
+            {/* Toart Message */}
+            {
+                toast ? <ToartMessage title={toastTitle} des={toastMessage} onPress={handleToast} type={toastType} /> : null
+            }
         </SafeAreaView>
     );
 }

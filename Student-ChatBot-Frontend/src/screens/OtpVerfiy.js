@@ -8,6 +8,7 @@ import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
 import { OtpInput } from 'react-native-otp-entry'
 import Animated from 'react-native-reanimated'
 import { FadeInDown, FadeInUp } from 'react-native-reanimated'
+import ToartMessage from '../components/ToartMessage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { width, height } = Dimensions.get('window')
@@ -20,9 +21,16 @@ const OtpVerfiy = () => {
     const [stLogin, setStLogin] = useState("login");
     const [acType, setAcType] = useState("");
     const [login, setLogin] = useState(true);
+    const [toast, setToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastTitle, setToastTitle] = useState("");
+    const [toastType, setToastType] = useState("");
     const navigation = useNavigation();
     const handleGoBack = () => {
         navigation.goBack();
+    }
+    const handleToast = () => {
+        setToast(false);
     }
     const handleSubmit = () => {
         console.log("Submit", email);
@@ -35,21 +43,30 @@ const OtpVerfiy = () => {
             .post("https://student-chatbot-a8hx.onrender.com/otpverify" || "http://192.168.225.123:5001/otpverify", userData)
             .then((res) => {
                 console.log(res.data);
+                setToastType(res.data.status);
+                setToastMessage(res.data.data);
                 if (res.data.status === "Ok") {
-                    Alert.alert("Otp Verified");
+                    // Alert.alert("Otp Verified");
+                    setToastTitle("Otp Verified");
+                    setToast(true);
                     AsyncStorage.setItem("isLoginIN", JSON.stringify(true));
-                    if (acType == "Student") {
-                        navigation.navigate("Profile");
-                    } else if (acType == "admin") {
-                        navigation.navigate("AdminHome")
-                    } else if (acType == "college") {
-                        navigation.navigate("CollegeForm")
-                    }
+                    setTimeout(() => {
+                        if (acType == "Student") {
+                            navigation.navigate("Profile");
+                        } else if (acType == "admin") {
+                            navigation.navigate("AdminHome")
+                        } else if (acType == "college") {
+                            navigation.navigate("CollegeForm")
+                        }
+                    }, 3000)
                 } else {
-                    Alert.alert("Otp Not Verified", JSON.stringify(res.data));
+                    // Alert.alert("Otp Not Verified", JSON.stringify(res.data));
+                    setToastTitle("Otp Not Verified");
+                    setToast(true);
                 }
             })
     }
+
     const handleResendCode = () => {
         const userData = {
             email: email,
@@ -58,13 +75,30 @@ const OtpVerfiy = () => {
             .post("https://student-chatbot-a8hx.onrender.com/otpResend", userData)
             .then((res) => {
                 console.log(res.data);
+                setToastType(res.data.status);
+                // setToastMessage(res.data.data);
                 if (res.data.status === "Ok") {
-                    Alert.alert("Otp Resend", "Please check your email");
+                    // Alert.alert("Otp Resend", "Please check your email");
+                    setToastTitle("Otp Resend");
+                    setToastMessage("Please check your email");
+                    setToast(true);
                 } else {
-                    Alert.alert("Otp Not Resend", JSON.stringify(res.data));
+                    // Alert.alert("Otp Not Resend", JSON.stringify(res.data));
+                    setToastMessage(res.data.data);
+                    setToastTitle("Otp Not Resend");
+                    setToast(true);
                 }
             })
     }
+
+    useEffect(() => {
+        if (toast) {
+            setTimeout(() => {
+                setToast(false);
+            }, 2000);
+        }
+    }, [toast])
+    
     useEffect(() => {
         AsyncStorage.getItem("email").then((value) => {
             setEmail(value);
@@ -140,6 +174,10 @@ const OtpVerfiy = () => {
                     </Animated.View>
                 </View>
             </ScrollView>
+            {/* Toart Message */}
+            {
+                toast ? <ToartMessage title={toastTitle} des={toastMessage} onPress={handleToast} type={toastType} /> : null
+            }
         </SafeAreaView>
     )
 }

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UserDetailsSchema = new mongoose.Schema(
+const AdminDetailsSchema = new mongoose.Schema(
     {
         name: String,
         phone: String,
@@ -12,5 +12,4 @@ const UserDetailsSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('UserInfo', UserDetailsSchema);
-
+module.exports = mongoose.model('AdminInfo', AdminDetailsSchema);

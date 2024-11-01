@@ -16,6 +16,7 @@ const CollegeLogin = () => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [waiting, setWaiting] = useState(false);
   const [email, setEmail] = useState("");
+  const [emailVerify, setEmailVerify] = useState(false);
   const [password, setPassword] = useState("");
   const [acType, setAcType] = useState("college");
   const [isLogin, setIsLogin] = useState("login");
@@ -25,6 +26,16 @@ const CollegeLogin = () => {
   const [toastType, setToastType] = useState("");
 
   const navigation = useNavigation();
+
+  const handleEmail = (e) => {
+    const emailVar = e.nativeEvent.text;
+    setEmail(emailVar);
+    setEmailVerify(false);
+    if (/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(emailVar)) {
+      setEmail(emailVar);
+      setEmailVerify(true);
+    }
+  };
 
   const handleGoBack = () => {
     // await removeItem("onboarding");
@@ -45,14 +56,13 @@ const CollegeLogin = () => {
   }
 
   const handleSubmit = () => {
-    const userData = {
-      email: email,
-      password,
-    };
+    const userData = emailVerify
+      ? { email:email, password }
+      : { userName: email, password };
     console.log(email, password);
     axios
       .post("https://student-chatbot-a8hx.onrender.com/login", userData)
-      // .post("http:// 192.168.225.123:5001/login",userData)
+      // .post("http://192.168.31.130:5001/collegeLogin", userData)
       .then((res) => {
         console.log(res.data);
         setToastType(res.data.status);
@@ -61,7 +71,7 @@ const CollegeLogin = () => {
           // Alert.alert("Otp Send On Gmail");
           setToastTitle("Otp Send On Gmail");
           setToast(true);
-          AsyncStorage.setItem("token", res.data.data);
+          AsyncStorage.setItem("token", res.data.token);
           AsyncStorage.setItem("acType", acType);
           AsyncStorage.setItem("login", isLogin)
           AsyncStorage.setItem("email", email);
@@ -85,86 +95,86 @@ const CollegeLogin = () => {
   }, [toast])
   return (
     <SafeAreaView className="flex-1 bg-white p-5">
-      
-        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-          <TouchableOpacity
-            className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center"
-            onPress={handleGoBack}
+
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        <TouchableOpacity
+          className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center"
+          onPress={handleGoBack}
+        >
+          <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
+        </TouchableOpacity>
+        <Animated.View className="my-5" entering={FadeInUp.duration(1000).springify()}>
+          <Text className="text-3xl font-semibold text-primary">Hey ,</Text>
+          <Text className="text-3xl font-semibold text-primary">Welcome</Text>
+          <Text className="text-3xl font-semibold text-primary">College</Text>
+          <LottieView
+            source={require("../../assets/lottie/12.json")}
+            className="absolute"
+            style={{
+              width: width * 0.5,
+              height: width * 1,
+              top: height / 2 - width * 1.4,
+              right: height / 2 - width * 1,
+            }}
+            autoPlay
+            loop
+          />
+        </Animated.View>
+        {/* form */}
+        <View className="mt-5">
+          {/* Email */}
+          <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+            entering={FadeInDown.duration(1000).springify()}
           >
-            <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
-          </TouchableOpacity>
-          <Animated.View className="my-5" entering={FadeInUp.duration(1000).springify()}>
-            <Text className="text-3xl font-semibold text-primary">Hey ,</Text>
-            <Text className="text-3xl font-semibold text-primary">Welcome</Text>
-            <Text className="text-3xl font-semibold text-primary">College</Text>
-            <LottieView
-              source={require("../../assets/lottie/12.json")}
-              className="absolute"
-              style={{
-                width: width * 0.5,
-                height: width * 1,
-                top: height / 2 - width * 1.4,
-                right: height / 2 - width * 1,
-              }}
-              autoPlay
-              loop
+            <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
+            <TextInput
+              className="flex-1 text-secondary px-2.5 font-light"
+              placeholder="Enter your email or Username"
+              keyboardType="email-address"
+              onChange={(e) => handleEmail(e)}
             />
           </Animated.View>
-          {/* form */}
-          <View className="mt-5">
-            {/* Email */}
-            <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
-              entering={FadeInDown.duration(1000).springify()}
+          {/* Password */}
+          <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+            entering={FadeInDown.delay(200).duration(1000).springify()}
+          >
+            <SimpleLineIcons name="lock" size={24} color="#AEB5BB" />
+            <TextInput
+              className="flex-1 text-secondary px-2.5 font-light"
+              placeholder="Enter your password"
+              secureTextEntry={secureTextEntry}
+              onChange={(e) => setPassword(e.nativeEvent.text)}
+            />
+            <TouchableOpacity
+              onPress={() => setSecureTextEntry((prev) => !prev)}
             >
-              <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
-              <TextInput
-                className="flex-1 text-secondary px-2.5 font-light"
-                placeholder="Enter your email"
-                keyboardType="email-address"
-                onChange={(e) => setEmail(e.nativeEvent.text)}
-              />
-            </Animated.View>
-            {/* Password */}
-            <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
-              entering={FadeInDown.delay(200).duration(1000).springify()}
+              <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
+            </TouchableOpacity>
+          </Animated.View>
+          {/* Forget Password */}
+          <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
+            <TouchableOpacity onPress={handleForgetPassword}>
+              <Text className="text-primary text-right font-semibold my-2.5">
+                Forgot Password?
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
+          {/* Login Button */}
+          <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()}>
+            <TouchableOpacity
+              className="bg-primary rounded-full mt-5"
+              onPress={() => handleSubmit()}
             >
-              <SimpleLineIcons name="lock" size={24} color="#AEB5BB" />
-              <TextInput
-                className="flex-1 text-secondary px-2.5 font-light"
-                placeholder="Enter your password"
-                secureTextEntry={secureTextEntry}
-                onChange={(e) => setPassword(e.nativeEvent.text)}
-              />
-              <TouchableOpacity
-                onPress={() => setSecureTextEntry((prev) => !prev)}
-              >
-                <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
-              </TouchableOpacity>
-            </Animated.View>
-            {/* Forget Password */}
-            <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
-              <TouchableOpacity onPress={handleForgetPassword}>
-                <Text className="text-primary text-right font-semibold my-2.5">
-                  Forgot Password?
-                </Text>
-              </TouchableOpacity>
-            </Animated.View>
-            {/* Login Button */}
-            <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()}>
-              <TouchableOpacity
-                className="bg-primary rounded-full mt-5"
-                onPress={() => handleSubmit()}
-              >
-                <Text className="text-white text-2xl font-semibold text-center p-2.5">
-                  Login
-                </Text>
-              </TouchableOpacity>
-            </Animated.View>
-            {/* <Text className="text-center my-5 text-lg text-primary">
+              <Text className="text-white text-2xl font-semibold text-center p-2.5">
+                Login
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
+          {/* <Text className="text-center my-5 text-lg text-primary">
               or continue with
             </Text> */}
-            {/* Google Button */}
-            {/* <TouchableOpacity className="justify-center items-center bg-white rounded-full flex-row border-2 border-primary">
+          {/* Google Button */}
+          {/* <TouchableOpacity className="justify-center items-center bg-white rounded-full flex-row border-2 border-primary">
               <Image
                 source={require("../assets/image/google.png")}
                 className="h-5 w-5"
@@ -173,22 +183,22 @@ const CollegeLogin = () => {
                 Google
               </Text>
             </TouchableOpacity> */}
-            <Animated.View className="flex-row justify-center items-center my-10 gap-x-1"
-              entering={FadeInUp.delay(800).duration(1000).springify()}
-            >
-              <Text className="text-primary font-normal">
-                Don't have an account?
+          <Animated.View className="flex-row justify-center items-center my-10 gap-x-1"
+            entering={FadeInUp.delay(800).duration(1000).springify()}
+          >
+            <Text className="text-primary font-normal">
+              Don't have an account?
+            </Text>
+            {/* Sign up Button */}
+            <TouchableOpacity>
+              <Text className="text-primary font-bold" onPress={handleSignUp}>
+                Sign up
               </Text>
-              {/* Sign up Button */}
-              <TouchableOpacity>
-                <Text className="text-primary font-bold" onPress={handleSignUp}>
-                  Sign up
-                </Text>
-              </TouchableOpacity>
-              {/* Gaust Login */}
-            </Animated.View>
-          </View>
-        </ScrollView>
+            </TouchableOpacity>
+            {/* Gaust Login */}
+          </Animated.View>
+        </View>
+      </ScrollView>
       {/* Toart Message */}
       {
         toast ? <ToartMessage title={toastTitle} des={toastMessage} onPress={handleToast} type={toastType} /> : null

@@ -7,6 +7,7 @@ import axios from 'axios'
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
 import Animated from 'react-native-reanimated'
 import { FadeInDown, FadeInUp } from 'react-native-reanimated'
+import ToartMessage from '../../components/ToartMessage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { width, height } = Dimensions.get('window')
@@ -17,12 +18,19 @@ const ChangePassword = () => {
     const [password, setPassword] = useState("");
     const [passwordVerify, setPasswordVerify] = useState(false);
     const [acType, setAcType] = useState("");
+    const [toast, setToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastTitle, setToastTitle] = useState("");
+    const [toastType, setToastType] = useState("");
     const navigation = useNavigation();
     const handleGoBack = () => {
         navigation.goBack();
     }
     const handleSignUp = () => {
         navigation.navigate("SignUp");
+    }
+    const handleToast = () => {
+        setToast(false);
     }
     const handlePassword = (e) => {
         const passwordVar = e.nativeEvent.text;
@@ -46,15 +54,31 @@ const ChangePassword = () => {
             .post("https://student-chatbot-a8hx.onrender.com/reset" || "http://192.168.225.123:5001/reset", userData)
             .then((res) => {
                 console.log(res.data);
+                setToastType(res.data.status);
+                setToastMessage(res.data.data);
                 if (res.data.status === "Ok") {
-                    Alert.alert("Password Changed", "Please login with new password");
-                    navigation.navigate("Panel");
+                    // Alert.alert("Password Changed", "Please login with new password");
+                    setToastTitle("Password Changed");
+                    setToastMessage("Please login with new password");
+                    setToast(true);
+                    setTimeout(() => {
+                        navigation.navigate("Panal");
+                    }, 3000)
                 } else {
-                    Alert.alert("Password Not Changed", JSON.stringify(res.data));
+                    // Alert.alert("Password Not Changed", JSON.stringify(res.data));
+                    setToastTitle("Password Not Changed");
+                    setToast(true);
                 }
             })
 
     }
+    useEffect(() => {
+        if (toast) {
+            setTimeout(() => {
+                setToast(false);
+            }, 2000);
+        }
+    }, [toast]) 
     useEffect(() => {
         AsyncStorage.getItem("email").then((value) => {
             setEmail(value);
@@ -145,6 +169,10 @@ const ChangePassword = () => {
                     </Animated.View>
                 </View>
             </ScrollView>
+            {/* Toart Message */}
+            {
+                toast ? <ToartMessage title={toastTitle} des={toastMessage} onPress={handleToast} type={toastType} /> : null
+            }
         </SafeAreaView>
     )
 }

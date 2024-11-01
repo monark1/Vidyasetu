@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 import Animated from "react-native-reanimated";
 import { FadeInDown, FadeInUp } from "react-native-reanimated";
+import ToartMessage from "../../components/ToartMessage";
 import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
@@ -28,7 +29,10 @@ const SignUpScreen = () => {
   const [emailVerify, setEmailVerify] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState(false);
-
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastTitle, setToastTitle] = useState("");
+  const [toastType, setToastType] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const navigation = useNavigation();
 
@@ -81,6 +85,10 @@ const SignUpScreen = () => {
     navigation.goBack();
   };
 
+  const handleToast = () => {
+    setToast(false);
+  };
+
   const handleSubmit = () => {
     const userData = {
       name: name,
@@ -92,31 +100,51 @@ const SignUpScreen = () => {
       axios
         .post(
           "https://student-chatbot-a8hx.onrender.com/register",
-          // "http://192.168.31.130:5001/register",
+          // "http://192.168.31.130:5001/registerCollege",
           userData
         )
         .then((res) => {
           console.log(res.data);
+          setToastType(res.data.status);
+          setToastMessage(res.data.data);
           if (res.data.status === "Ok") {
-            Alert.alert("Success", "Register Success", [
-              { text: "OK", onPress: () => handleLogin() },
-            ]);
-            navigation.navigate("Login");
+            setToastTitle("Success");
+            setToast(true);
+            // Alert.alert("Success", "Register Success", [
+            //   { text: "OK", onPress: () => handleLogin() },
+            // ]);
+            setTimeout(() => {
+              navigation.navigate("Login");
+            },3000)
           } else {
-            Alert.alert("Error", JSON.stringify(res.data), [
-              { text: "OK", onPress: () => console.log("OK Pressed") },
-            ]);
+            setToastTitle("Error");
+            setToast(true);
+            // Alert.alert("Error", JSON.stringify(res.data), [
+            //   { text: "OK", onPress: () => console.log("OK Pressed") },
+            // ]);
           }
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      Alert.alert("Error", "Please fill the form correctly", [
-        { text: "OK", onPress: () => console.log("OK Pressed") },
-      ]);
+      // Alert.alert("Error", "Please fill the form correctly", [
+      //   { text: "OK", onPress: () => console.log("OK Pressed") },
+      // ]);
+      setToastTitle("Error");
+      setToastMessage("Please fill the form correctly");
+      setToastType("error");
+      setToast(true);
     }
   };
+
+  useEffect(() => {
+    if (toast) {
+      setTimeout(() => {
+        setToast(false);
+      }, 2000);
+    }
+  }, [toast])
 
   return (
     <SafeAreaView className="flex-1 bg-white p-5">
@@ -236,6 +264,7 @@ const SignUpScreen = () => {
               Uppercase, Lowercase, Number and 8 character long
             </Text>
           )}
+          {/* Register Button */}
           <Animated.View entering={FadeInDown.delay(800).duration(1000).springify()}>
             <TouchableOpacity
               className="bg-primary rounded-full mt-5"
@@ -270,6 +299,10 @@ const SignUpScreen = () => {
           </Animated.View>
         </View>
       </ScrollView>
+      {/* Toart Message */}
+      {
+        toast ? <ToartMessage title={toastTitle} des={toastMessage} onPress={handleToast} type={toastType} /> : null
+      }
     </SafeAreaView>
   );
 };
