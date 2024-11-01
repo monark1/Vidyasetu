@@ -19,6 +19,7 @@ import OtpVerfiy from "./OtpVerfiy";
 import CollegeManagement from "./Admin/CollegeManagement";
 import DataVerify from "./Admin/DataVerify";
 import ReportAnalytics from "./Admin/ReportAnalytics";
+import ToartMessage from "../components/ToartMessage";
 export {
   HomeScreen,
   LoginScreen,
@@ -40,5 +41,6 @@ export {
   OtpVerfiy,
   CollegeManagement,
   DataVerify,
-  ReportAnalytics
+  ReportAnalytics,
+  ToartMessage,
 };

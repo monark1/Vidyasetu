@@ -34,13 +34,14 @@ const PanalScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white p-5">
+      
       <TouchableOpacity
         className="bg-gray-300 rounded-full h-10 w-10 justify-center items-center"
         onPress={handleGoBack}
       >
         <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
       </TouchableOpacity>
-      <View className="my-5">
+      <Animated.View className="my-5" entering={FadeInUp.delay(200).duration(1000).springify()}>
         <Text className="text-3xl text-primary font-semibold">Select</Text>
         <Text className="text-3xl text-primary font-semibold">
           Account Type
@@ -48,19 +49,19 @@ const PanalScreen = () => {
         <Text className="text-3xl text-primary font-semibold">
           For Login
         </Text>
-      </View>
-      <View className="justify-center items-center">
+      </Animated.View>
+      <Animated.View className="justify-center items-center" entering={FadeInUp.delay(200).duration(1000).springify()}>
         <LottieView
           source={require("../assets/lottie/1.json")}
           style={{ width: width - 20, height: height / 2 }}
           autoPlay
           loop
         />
-      </View>
+      </Animated.View>
       <Animated.View className="flex-row justify-between mt-3 p-5"
         entering={FadeInDown.duration(1000).springify()}
       >
-        <View>
+        <Animated.View sharedTransitionTag={''}>
             <TouchableOpacity className="rounded-full h-20 w-20 justify-center items-center bg-gray-300"
             onPress={handleAdmin}
           >
@@ -68,7 +69,7 @@ const PanalScreen = () => {
           </TouchableOpacity>
           <Text className="text-center font-semibold text-xl">Gov</Text>
           <Text className="text-center font-semibold text-xl">Admin</Text>
-        </View>
+        </Animated.View>
         <View>
           <TouchableOpacity className="rounded-full h-20 w-20 justify-center items-center bg-gray-300"
             onPress={handleCollege}

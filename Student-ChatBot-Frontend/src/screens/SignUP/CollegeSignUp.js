@@ -13,6 +13,8 @@ import { Ionicons, SimpleLineIcons, AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
+import Animated from "react-native-reanimated";
+import { FadeInDown, FadeInUp } from "react-native-reanimated";
 import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
@@ -124,7 +126,7 @@ const CollegeSignUp = () => {
                 >
                     <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
                 </TouchableOpacity>
-                <View className="my-5">
+                <Animated.View className="my-5" entering={FadeInUp.duration(1000).springify()}>
                     <Text className="text-3xl font-semibold text-primary">Let's Get</Text>
                     <Text className="text-3xl font-semibold text-primary">Started</Text>
                     <LottieView
@@ -139,11 +141,13 @@ const CollegeSignUp = () => {
                         autoPlay
                         loop
                     />
-                </View>
+                </Animated.View>
                 {/* form */}
                 <View className="mt-5">
                     {/* Name form */}
-                    <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
+                    <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                        entering={FadeInDown.duration(1000).springify()}
+                    >
                         <AntDesign name="user" size={24} color="#AEB5BB" />
                         <TextInput
                             className="flex-1 text-secondary px-2.5 font-light"
@@ -155,14 +159,16 @@ const CollegeSignUp = () => {
                         ) : (
                             <Ionicons name="close" size={24} color="#AEB5BB" />
                         )}
-                    </View>
+                    </Animated.View>
                     {name.length < 1 ? null : nameVerify ? null : (
                         <Text className="text-red-500 text-sm font-light">
                             Name should be more then 1 character
                         </Text>
                     )}
                     {/* Phone form */}
-                    <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
+                    <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                        entering={FadeInDown.delay(200).duration(1000).springify()}
+                    >
                         <Ionicons name="call-outline" size={24} color="#AEB5BB" />
                         <TextInput
                             className="flex-1 text-secondary px-2.5 font-light"
@@ -174,14 +180,16 @@ const CollegeSignUp = () => {
                         ) : (
                             <Ionicons name="close" size={24} color="#AEB5BB" />
                         )}
-                    </View>
+                    </Animated.View>
                     {phone.length < 1 ? null : phoneVerify ? null : (
                         <Text className="text-red-500 text-sm font-light">
                             Enter Proper Phone Number
                         </Text>
                     )}
                     {/* Email form */}
-                    <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
+                    <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                        entering={FadeInDown.delay(400).duration(1000).springify()}
+                    >
                         <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
                         <TextInput
                             className="flex-1 text-secondary px-2.5 font-light"
@@ -194,14 +202,16 @@ const CollegeSignUp = () => {
                         ) : (
                             <Ionicons name="close" size={24} color="#AEB5BB" />
                         )}
-                    </View>
+                    </Animated.View>
                     {email.length < 1 ? null : emailVerify ? null : (
                         <Text className="text-red-500 text-sm font-light">
                             Enter Proper Email Address
                         </Text>
                     )}
                     {/* Password form */}
-                    <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
+                    <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                        entering={FadeInDown.delay(600).duration(1000).springify()}
+                    >
                         <SimpleLineIcons name="lock" size={24} color="#AEB5BB" />
                         <TextInput
                             className="flex-1 text-secondary px-2.5 font-light"
@@ -219,20 +229,23 @@ const CollegeSignUp = () => {
                         >
                             <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
                         </TouchableOpacity>
-                    </View>
+                    </Animated.View>
                     {password.length < 1 ? null : passwordVerify ? null : (
                         <Text className="text-red-500 text-sm font-light">
                             Uppercase, Lowercase, Number and 8 character long
                         </Text>
                     )}
-                    <TouchableOpacity
-                        className="bg-primary rounded-full mt-5"
-                        onPress={handleSubmit}
-                    >
-                        <Text className="text-white text-2xl font-semibold text-center p-2.5">
-                            Register
-                        </Text>
-                    </TouchableOpacity>
+                    <Animated.View
+                        entering={FadeInDown.delay(800).duration(1000).springify()}>
+                        <TouchableOpacity
+                            className="bg-primary rounded-full mt-5"
+                            onPress={handleSubmit}
+                        >
+                            <Text className="text-white text-2xl font-semibold text-center p-2.5">
+                                Register
+                            </Text>
+                        </TouchableOpacity>
+                    </Animated.View>
                     {/* <Text className="text-center my-5 text-lg text-primary">
               or continue with
             </Text> */}
@@ -245,14 +258,16 @@ const CollegeSignUp = () => {
                 Google
               </Text>
             </TouchableOpacity> */}
-                    <View className="flex-row justify-center items-center my-10 gap-x-1">
+                    <Animated.View className="flex-row justify-center items-center my-10 gap-x-1"
+                        entering={FadeInDown.delay(900).duration(1000).springify()}
+                    >
                         <Text className="text-primary font-normal">
                             Already have an account?
                         </Text>
                         <TouchableOpacity onPress={handleLogin}>
                             <Text className="text-primary font-bold">Login</Text>
                         </TouchableOpacity>
-                    </View>
+                    </Animated.View>
                 </View>
             </ScrollView>
         </SafeAreaView>

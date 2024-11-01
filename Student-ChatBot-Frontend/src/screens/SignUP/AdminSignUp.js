@@ -1,24 +1,26 @@
 import {
-    View,
-    Text,
-    TouchableOpacity,
-    ScrollView,
-    TextInput,
-    Image,
-    Dimensions,
-    Alert,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  Image,
+  Dimensions,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, SimpleLineIcons, AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
+import Animated from "react-native-reanimated";
+import { FadeInDown, FadeInUp } from "react-native-reanimated";
 import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
 
 const AdminSignUp = () => {
-    const [name, setName] = useState("");
+  const [name, setName] = useState("");
   const [nameVerify, setNameVerify] = useState(false);
   const [phone, setPhone] = useState("");
   const [phoneVerify, setPhoneVerify] = useState(false);
@@ -117,146 +119,159 @@ const AdminSignUp = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white p-5">
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        <TouchableOpacity
-          className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center"
-          onPress={handleGoBack}
-        >
-          <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
-        </TouchableOpacity>
-        <View className="my-5">
-          <Text className="text-3xl font-semibold text-primary">Let's Get</Text>
-          <Text className="text-3xl font-semibold text-primary">Started</Text>
-          <LottieView
-            source={require("../../assets/lottie/14.json")}
-            className="absolute"
-            style={{
-              width: width * 0.6,
-              height: width * 1.1,
-              top: height / 2 - width * 1.5,
-              right: height / 2 - width * 1.05,
-            }}
-            autoPlay
-            loop
-          />
-        </View>
-        {/* form */}
-        <View className="mt-5">
-          {/* Name form */}
-          <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
-            <AntDesign name="user" size={24} color="#AEB5BB" />
-            <TextInput
-              className="flex-1 text-secondary px-2.5 font-light"
-              placeholder="Enter Your username"
-              onChange={(e) => handleName(e)} //name validation
-            />
-            {name.length < 1 ? null : nameVerify ? (
-              <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
-            ) : (
-              <Ionicons name="close" size={24} color="#AEB5BB" />
-            )}
-          </View>
-          {name.length < 1 ? null : nameVerify ? null : (
-            <Text className="text-red-500 text-sm font-light">
-              Name should be more then 1 character
-            </Text>
-          )}
-          {/* Phone form */}
-          <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
-            <Ionicons name="call-outline" size={24} color="#AEB5BB" />
-            <TextInput
-              className="flex-1 text-secondary px-2.5 font-light"
-              placeholder="Enter your phone number"
-              onChange={(e) => handlePhone(e)} //email validation
-            />
-            {phone.length < 1 ? null : phoneVerify ? (
-              <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
-            ) : (
-              <Ionicons name="close" size={24} color="#AEB5BB" />
-            )}
-          </View>
-          {phone.length < 1 ? null : phoneVerify ? null : (
-            <Text className="text-red-500 text-sm font-light">
-              Enter Proper Phone Number
-            </Text>
-          )}
-          {/* Email form */}
-          <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
-            <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
-            <TextInput
-              className="flex-1 text-secondary px-2.5 font-light"
-              placeholder="Enter your email"
-              keyboardType="email-address"
-              onChange={(e) => handleEmail(e)} //email validation
-            />
-            {email.length < 1 ? null : emailVerify ? (
-              <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
-            ) : (
-              <Ionicons name="close" size={24} color="#AEB5BB" />
-            )}
-          </View>
-          {email.length < 1 ? null : emailVerify ? null : (
-            <Text className="text-red-500 text-sm font-light">
-              Enter Proper Email Address
-            </Text>
-          )}
-          {/* Password form */}
-          <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
-            <SimpleLineIcons name="lock" size={24} color="#AEB5BB" />
-            <TextInput
-              className="flex-1 text-secondary px-2.5 font-light"
-              placeholder="Enter your password"
-              secureTextEntry={secureTextEntry}
-              onChange={(e) => handlePassword(e)} //password validation
-            />
-            {password.length < 1 ? null : passwordVerify ? (
-              <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
-            ) : (
-              <Ionicons name="close" size={24} color="#AEB5BB" />
-            )}
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
             <TouchableOpacity
-              onPress={() => setSecureTextEntry((prev) => !prev)}
+                className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center"
+                onPress={handleGoBack}
             >
-              <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
+                <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
             </TouchableOpacity>
-          </View>
-          {password.length < 1 ? null : passwordVerify ? null : (
-            <Text className="text-red-500 text-sm font-light">
-              Uppercase, Lowercase, Number and 8 character long
-            </Text>
-          )}
-          <TouchableOpacity
-            className="bg-primary rounded-full mt-5"
-            onPress={handleSubmit}
-          >
-            <Text className="text-white text-2xl font-semibold text-center p-2.5">
-              Register
-            </Text>
-          </TouchableOpacity>
-          {/* <Text className="text-center my-5 text-lg text-primary">
-            or continue with
-          </Text> */}
-          {/* <TouchableOpacity className="justify-center items-center bg-white rounded-full flex-row border-2 border-primary">
-            <Image
-              source={require("../assets/image/google.png")}
-              className="h-5 w-5"
-            />
-            <Text className="text-primary text-2xl font-semibold text-center p-2.5">
-              Google
-            </Text>
-          </TouchableOpacity> */}
-          <View className="flex-row justify-center items-center my-10 gap-x-1">
-            <Text className="text-primary font-normal">
-              Already have an account?
-            </Text>
-            <TouchableOpacity onPress={handleLogin}>
-              <Text className="text-primary font-bold">Login</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
+            <Animated.View className="my-5" entering={FadeInUp.duration(1000).springify()}>
+                <Text className="text-3xl font-semibold text-primary">Let's Get</Text>
+                <Text className="text-3xl font-semibold text-primary">Started</Text>
+                <LottieView
+                    source={require("../../assets/lottie/14.json")}
+                    className="absolute"
+                    style={{
+                        width: width * 0.5,
+                        height: width * 1.1,
+                        top: height / 2 - width * 1.5,
+                        right: height / 2 - width * 1.05,
+                    }}
+                    autoPlay
+                    loop
+                />
+            </Animated.View>
+            {/* form */}
+            <View className="mt-5">
+                {/* Name form */}
+                <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                    entering={FadeInDown.duration(1000).springify()}
+                >
+                    <AntDesign name="user" size={24} color="#AEB5BB" />
+                    <TextInput
+                        className="flex-1 text-secondary px-2.5 font-light"
+                        placeholder="Enter Your username"
+                        onChange={(e) => handleName(e)} //name validation
+                    />
+                    {name.length < 1 ? null : nameVerify ? (
+                        <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
+                    ) : (
+                        <Ionicons name="close" size={24} color="#AEB5BB" />
+                    )}
+                </Animated.View>
+                {name.length < 1 ? null : nameVerify ? null : (
+                    <Text className="text-red-500 text-sm font-light">
+                        Name should be more then 1 character
+                    </Text>
+                )}
+                {/* Phone form */}
+                <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                    entering={FadeInDown.delay(200).duration(1000).springify()}
+                >
+                    <Ionicons name="call-outline" size={24} color="#AEB5BB" />
+                    <TextInput
+                        className="flex-1 text-secondary px-2.5 font-light"
+                        placeholder="Enter your phone number"
+                        onChange={(e) => handlePhone(e)} //email validation
+                    />
+                    {phone.length < 1 ? null : phoneVerify ? (
+                        <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
+                    ) : (
+                        <Ionicons name="close" size={24} color="#AEB5BB" />
+                    )}
+                </Animated.View>
+                {phone.length < 1 ? null : phoneVerify ? null : (
+                    <Text className="text-red-500 text-sm font-light">
+                        Enter Proper Phone Number
+                    </Text>
+                )}
+                {/* Email form */}
+                <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                    entering={FadeInDown.delay(400).duration(1000).springify()}
+                >
+                    <Ionicons name="mail-outline" size={24} color="#AEB5BB" />
+                    <TextInput
+                        className="flex-1 text-secondary px-2.5 font-light"
+                        placeholder="Enter your email"
+                        keyboardType="email-address"
+                        onChange={(e) => handleEmail(e)} //email validation
+                    />
+                    {email.length < 1 ? null : emailVerify ? (
+                        <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
+                    ) : (
+                        <Ionicons name="close" size={24} color="#AEB5BB" />
+                    )}
+                </Animated.View>
+                {email.length < 1 ? null : emailVerify ? null : (
+                    <Text className="text-red-500 text-sm font-light">
+                        Enter Proper Email Address
+                    </Text>
+                )}
+                {/* Password form */}
+                <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                    entering={FadeInDown.delay(600).duration(1000).springify()}
+                >
+                    <SimpleLineIcons name="lock" size={24} color="#AEB5BB" />
+                    <TextInput
+                        className="flex-1 text-secondary px-2.5 font-light"
+                        placeholder="Enter your password"
+                        secureTextEntry={secureTextEntry}
+                        onChange={(e) => handlePassword(e)} //password validation
+                    />
+                    {password.length < 1 ? null : passwordVerify ? (
+                        <Ionicons name="checkmark-done" size={24} color="#AEB5BB" />
+                    ) : (
+                        <Ionicons name="close" size={24} color="#AEB5BB" />
+                    )}
+                    <TouchableOpacity
+                        onPress={() => setSecureTextEntry((prev) => !prev)}
+                    >
+                        <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
+                    </TouchableOpacity>
+                </Animated.View>
+                {password.length < 1 ? null : passwordVerify ? null : (
+                    <Text className="text-red-500 text-sm font-light">
+                        Uppercase, Lowercase, Number and 8 character long
+                    </Text>
+                )}
+                <Animated.View
+                    entering={FadeInDown.delay(800).duration(1000).springify()}>
+                    <TouchableOpacity
+                        className="bg-primary rounded-full mt-5"
+                        onPress={handleSubmit}
+                    >
+                        <Text className="text-white text-2xl font-semibold text-center p-2.5">
+                            Register
+                        </Text>
+                    </TouchableOpacity>
+                </Animated.View>
+                {/* <Text className="text-center my-5 text-lg text-primary">
+          or continue with
+        </Text> */}
+                {/* <TouchableOpacity className="justify-center items-center bg-white rounded-full flex-row border-2 border-primary">
+          <Image
+            source={require("../assets/image/google.png")}
+            className="h-5 w-5"
+          />
+          <Text className="text-primary text-2xl font-semibold text-center p-2.5">
+            Google
+          </Text>
+        </TouchableOpacity> */}
+                <Animated.View className="flex-row justify-center items-center my-10 gap-x-1"
+                    entering={FadeInDown.delay(900).duration(1000).springify()}
+                >
+                    <Text className="text-primary font-normal">
+                        Already have an account?
+                    </Text>
+                    <TouchableOpacity onPress={handleLogin}>
+                        <Text className="text-primary font-bold">Login</Text>
+                    </TouchableOpacity>
+                </Animated.View>
+            </View>
+        </ScrollView>
     </SafeAreaView>
-  );
+);
 }
 
 export default AdminSignUp

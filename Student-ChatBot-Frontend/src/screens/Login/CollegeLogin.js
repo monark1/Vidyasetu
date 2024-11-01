@@ -7,6 +7,7 @@ import axios from 'axios'
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
 import { FadeInDown, FadeInUp } from "react-native-reanimated";
 import Animated from "react-native-reanimated"
+import ToartMessage from "../../components/ToartMessage";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { width, height } = Dimensions.get("window");
@@ -18,6 +19,10 @@ const CollegeLogin = () => {
   const [password, setPassword] = useState("");
   const [acType, setAcType] = useState("college");
   const [isLogin, setIsLogin] = useState("login");
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastTitle, setToastTitle] = useState("");
+  const [toastType, setToastType] = useState("");
 
   const navigation = useNavigation();
 
@@ -35,6 +40,10 @@ const CollegeLogin = () => {
     navigation.navigate("ForgetPassword");
   };
 
+  const handleToast = () => {
+    setToast(false);
+  }
+
   const handleSubmit = () => {
     const userData = {
       email: email,
@@ -46,34 +55,37 @@ const CollegeLogin = () => {
       // .post("http:// 192.168.225.123:5001/login",userData)
       .then((res) => {
         console.log(res.data);
+        setToastType(res.data.status);
+        setToastMessage(res.data.data);
         if (res.data.status === "Ok") {
-          Alert.alert("Otp Send On Gmail");
+          // Alert.alert("Otp Send On Gmail");
+          setToastTitle("Otp Send On Gmail");
+          setToast(true);
           AsyncStorage.setItem("token", res.data.data);
           AsyncStorage.setItem("acType", acType);
           AsyncStorage.setItem("login", isLogin)
           AsyncStorage.setItem("email", email);
-          navigation.navigate("OtpVerify");
+          setTimeout(() => {
+            navigation.navigate("OtpVerify");
+          }, 3000)
         } else {
-          Alert.alert("Login Failed", JSON.stringify(res.data));
+          // Alert.alert("Login Failed", JSON.stringify(res.data));
+          setToastTitle("Login Failed");
+          setToast(true);
         }
       });
   };
 
+  useEffect(() => {
+    if (toast) {
+      setTimeout(() => {
+        setToast(false);
+      }, 2000);
+    }
+  }, [toast])
   return (
     <SafeAreaView className="flex-1 bg-white p-5">
-      {waiting ? (
-        <View className="justify-center items-center flex-1">
-          <LottieView
-            source={require("../../assets/lottie/waiting.json")}
-            style={{
-              width: width,
-              height: width,
-            }}
-            autoPlay
-            loop
-          />
-        </View>
-      ) : (
+      
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           <TouchableOpacity
             className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center"
@@ -177,7 +189,10 @@ const CollegeLogin = () => {
             </Animated.View>
           </View>
         </ScrollView>
-      )}
+      {/* Toart Message */}
+      {
+        toast ? <ToartMessage title={toastTitle} des={toastMessage} onPress={handleToast} type={toastType} /> : null
+      }
     </SafeAreaView>
   );
 }

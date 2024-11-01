@@ -43,7 +43,7 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const oldUser = await User.findOne({ email: req.body.email });
     if (!oldUser) {
-        return res.send({ status: "error", data: "User does not exist" });
+        return res.send({ status: "error", data: "User Does Not Exist" });
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -67,12 +67,12 @@ router.post('/login', async (req, res) => {
     if (await bcrypt.compare(password, oldUser.password)) {
         const token = jwt.sign({ email: oldUser.email }, JWT_SECRET);
         if (res.status(201)) {
-            return res.send({ status: "Ok", data: token });
+            return res.send({ status: "Ok", data: "Success" });
         } else {
-            return res.send({ status: "Error", data: "Invalid password" });
+            return res.send({ status: "error", data: "Invalid password" });
         }
     } else {
-        return res.send({ status: "Error", data: "Invalid password" });
+        return res.send({ status: "error", data: "Invalid password" });
     }
 
     setTimeout(() => {

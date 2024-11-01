@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons'
+import Animated from 'react-native-reanimated'
+import { FadeInDown, FadeInUp } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { width, height } = Dimensions.get('window')
@@ -41,7 +43,7 @@ const ChangePassword = () => {
         }
         console.log(userData);
         axios
-            .post("https://student-chatbot-a8hx.onrender.com/reset"||"http://192.168.225.123:5001/reset", userData)
+            .post("https://student-chatbot-a8hx.onrender.com/reset" || "http://192.168.225.123:5001/reset", userData)
             .then((res) => {
                 console.log(res.data);
                 if (res.data.status === "Ok") {
@@ -72,7 +74,7 @@ const ChangePassword = () => {
                 >
                     <Ionicons name="arrow-back-outline" size={32} color="#45484A" />
                 </TouchableOpacity>
-                <View className="my-5">
+                <Animated.View className="my-5" entering={FadeInUp.delay(200).duration(1000).springify()}>
                     <Text className="text-3xl font-semibold text-primary mt-5">Change</Text>
                     <Text className="text-3xl font-semibold text-primary">Password ?</Text>
                     <LottieView
@@ -87,10 +89,12 @@ const ChangePassword = () => {
                         autoPlay
                         loop
                     />
-                </View>
+                </Animated.View>
                 {/* form */}
                 <View className="mt-[20%]">
-                    <View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4">
+                    <Animated.View className="border border-secondary rounded-2xl px-5 py-0.5 flex-row items-center my-4"
+                        entering={FadeInDown.delay(200).duration(1000).springify()}
+                    >
                         <SimpleLineIcons name="lock" size={24} color="#AEB5BB" />
                         <TextInput
                             className="flex-1 text-secondary px-2.5 font-light"
@@ -108,22 +112,27 @@ const ChangePassword = () => {
                         >
                             <SimpleLineIcons name="eye" size={24} color="#AEB5BB" />
                         </TouchableOpacity>
-                    </View>
+                    </Animated.View>
                     {password.length < 1 ? null : passwordVerify ? null : (
                         <Text className="text-red-500 text-sm font-light">
                             Uppercase, Lowercase, Number and 8 character long
                         </Text>
                     )}
-                    <TouchableOpacity
-                        className="bg-primary rounded-full mt-5"
-                        onPress={() => handleSubmit()}
-                    >
+                    {/* Submit Button */}
+                    <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
+                        <TouchableOpacity
+                            className="bg-primary rounded-full mt-5"
+                            onPress={() => handleSubmit()}
+                        >
 
-                        <Text className="text-white text-2xl font-semibold text-center p-2.5">
-                            Submit
-                        </Text>
-                    </TouchableOpacity>
-                    <View className="flex-row justify-center items-center my-10 gap-x-1">
+                            <Text className="text-white text-2xl font-semibold text-center p-2.5">
+                                Submit
+                            </Text>
+                        </TouchableOpacity>
+                    </Animated.View>
+                    <Animated.View className="flex-row justify-center items-center my-10 gap-x-1"
+                        entering={FadeInDown.delay(600).duration(1000).springify()}
+                    >
                         <Text className="text-primary font-normal">
                             Don't have an account?
                         </Text>
@@ -133,8 +142,7 @@ const ChangePassword = () => {
                                 Sign up
                             </Text>
                         </TouchableOpacity>
-                        {/* Gaust Login */}
-                    </View>
+                    </Animated.View>
                 </View>
             </ScrollView>
         </SafeAreaView>

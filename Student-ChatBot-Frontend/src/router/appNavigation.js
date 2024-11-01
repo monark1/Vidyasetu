@@ -22,6 +22,7 @@ import {
   CollegeManagement,
   DataVerify,
   ReportAnalytics,
+  ToartMessage,
 } from "../screens";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -36,7 +37,7 @@ const AppNavigation = () => {
     setLogin(value);
   }
   useEffect(() => {
-    check();
+    // check();
     // console.log(login);
   }, []);
   return (
@@ -44,9 +45,9 @@ const AppNavigation = () => {
       <Stack.Navigator
         //  initialRouteName="Home" //this for testing
         // initialRouteName={login ? "Home" : "Onboarding"}
-        initialRouteName="Panal"
-        screenOptions={{headerShown: false}}
-      >
+        // initialRouteName="Login"
+        screenOptions={{ headerShown: false }}
+        >
         <Stack.Screen
           name="Onboarding"
           component={OnboardingScreen}
@@ -129,6 +130,10 @@ const AppNavigation = () => {
         <Stack.Screen
           name="ReportAnalytics"
           component={ReportAnalytics}
+        />
+        <Stack.Screen
+          name="Toart"
+          component={ToartMessage}
         />
       </Stack.Navigator>
     </NavigationContainer>
