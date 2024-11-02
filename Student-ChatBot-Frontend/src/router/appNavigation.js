@@ -54,7 +54,7 @@ const AppNavigation = () => {
   }, []);
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="">
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="CollegeManagement">
         {stayLogin ? <Stack.Screen name="LoggedIn" component={LoggedInType()} /> : <Stack.Screen name="LoggedOut" component={OnboardingScreen} />}
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
@@ -78,7 +78,6 @@ const AppNavigation = () => {
         <Stack.Screen name="DataVerify" component={DataVerify} />
         <Stack.Screen name="ReportAnalytics" component={ReportAnalytics} />
         <Stack.Screen name="Toart" component={ToartMessage} />
-        <Stack.Screen name="CollegeProfile" component={CollegeProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

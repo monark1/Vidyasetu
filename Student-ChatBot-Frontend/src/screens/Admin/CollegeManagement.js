@@ -22,28 +22,22 @@ const CollegeManagement = () => {
         </TouchableOpacity>
       </View>
       <View>
-        <View>
-          <Text className='text-2xl font-semibold text-center'>College Management</Text>
-          <View className='flex-row items-center justify-between p-3'>
-            <View className='flex-1 items-center justify-center p-3 bg-gray-100 rounded-lg'>
-              <Text className='text-xl font-semibold'>College List</Text>
-              <Text className='text-lg font-normal'>List of all colleges</Text>
-            </View>
-            <View className='flex-1 items-center justify-center p-3 bg-gray-100 rounded-lg'>
-              <Text className='text-xl font-semibold'>Add College</Text>
-              <Text className='text-lg font-normal'>Add a new college</Text>
-            </View>
-          </View>
-          <View className='flex-row items-center justify-between p-3'>
-            <View className='flex-1 items-center justify-center p-3 bg-gray-100 rounded-lg'>
-              <Text className='text-xl font-semibold'>College Profile</Text>
-              <Text className='text-lg font-normal'>View college profile</Text>
-            </View>
-            <View className='flex-1 items-center justify-center p-3 bg-gray-100 rounded-lg'>
-              <Text className='text-xl font-semibold'>College Report</Text>
-              <Text className='text-lg font-normal'>View college report</Text>
-            </View>
-          </View>
+        <Text className='text-center text-2xl font-semibold'>College Management</Text>
+        <View className='flex-row items-center justify-between p-3'>
+          <TouchableOpacity className='w-44 h-44 bg-gray-300 items-center justify-center rounded-lg'>
+            <Text className='text-xl font-semibold'>Add College</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className='w-44 h-44 bg-gray-300 items-center justify-center rounded-lg'>
+            <Text className='text-xl font-semibold'>Edit College</Text>
+          </TouchableOpacity>
+        </View>
+        <View className='flex-row items-center justify-between p-3'>
+          <TouchableOpacity className='w-44 h-44 bg-gray-300 items-center justify-center rounded-lg'>
+            <Text className='text-xl font-semibold'>Delete College</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className='w-44 h-44 bg-gray-300 items-center justify-center rounded-lg'>
+            <Text className='text-xl font-semibold'>View College</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

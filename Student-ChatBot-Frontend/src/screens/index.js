@@ -20,7 +20,6 @@ import CollegeManagement from "./Admin/CollegeManagement";
 import DataVerify from "./Admin/DataVerify";
 import ReportAnalytics from "./Admin/ReportAnalytics";
 import ToartMessage from "../components/ToartMessage";
-import CollegeProfile from "./Profile/CollegeProfile";
 export {
   HomeScreen,
   LoginScreen,
@@ -44,5 +43,4 @@ export {
   DataVerify,
   ReportAnalytics,
   ToartMessage,
-  CollegeProfile,
 };
