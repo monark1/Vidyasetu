@@ -19,6 +19,14 @@ const AdminHome = () => {
   const handleProfile = () => {
     navigation.navigate("Profile");
   }
+  const handleBackCheck = () => {
+    const unsubscribe = navigation.addListener("beforeRemove", (e) => {
+      e.preventDefault();
+    })
+  }
+  useEffect(() => {
+    handleBackCheck();
+  },[])
   return (
     <SafeAreaView className='flex-1 bg-white p-5'>
       <View className='justify-between items-center flex-row'>

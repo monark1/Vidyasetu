@@ -57,12 +57,13 @@ const CollegeLogin = () => {
 
   const handleSubmit = () => {
     const userData = emailVerify
-      ? { email:email, password }
+      ? { email: email, password }
       : { userName: email, password };
     console.log(email, password);
     axios
-      .post("https://student-chatbot-a8hx.onrender.com/login", userData)
-      // .post("http://192.168.31.130:5001/collegeLogin", userData)
+      .post(
+        "https://student-chatbot-a8hx.onrender.com/collegeLogin" || "http://192.168.31.130:5001/collegeLogin",
+        userData)
       .then((res) => {
         console.log(res.data);
         setToastType(res.data.status);

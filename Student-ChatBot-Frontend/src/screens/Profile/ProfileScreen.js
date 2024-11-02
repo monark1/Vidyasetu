@@ -5,27 +5,46 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const ProfileScreen = () => {
   const [userData, setUserData] = useState("");
-
+  const [stayLogin, setStayLogin] = useState(null);
   const navigation = useNavigation();
 
-  const getUserData = async () => {
+  const handleUserType = async () => {
     const token = await AsyncStorage.getItem("token");
     console.log(token);
-    axios
+    if (stayLogin == 'student') {
+      axios
       .post("https://student-chatbot-a8hx.onrender.com/userdata", {
         token: token,
       })
       .then((res) => {
-        // console.log(res.data); //for testing
         setUserData(res.data.data);
       });
-  };
+    } else if (stayLogin == 'admin') {
+      axios
+      .post("https://student-chatbot-a8hx.onrender.com/adminuserdata", {
+        token: token,
+      })
+      .then((res) => {
+        setUserData(res.data.data);
+      });
+    } else if (stayLogin == 'college') {
+      axios
+      .post("https://student-chatbot-a8hx.onrender.com/collegeuserdata", {
+        token: token,
+      })
+      .then((res) => {
+        setUserData(res.data.data);
+      });
+    }
+  }
 
   const handleLogout = async () => {
-    AsyncStorage.setItem("isLoginIN",JSON.stringify(false));
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("stayLogin");
     navigation.navigate("Onboarding");
   }
 
@@ -37,10 +56,17 @@ const ProfileScreen = () => {
     navigation.goBack();
   }
 
+  const handleCheck = async () => {
+    const stayLogin = await AsyncStorage.getItem("stayLogin")
+    setStayLogin(stayLogin)
+    // console.log(stayLogin)
+  }
+
   useEffect(() => {
     // console.log("Profile Screen");
-    getUserData();
-  }, []);
+    handleUserType();
+    handleCheck();
+  }, [stayLogin]);
 
   return (
     <SafeAreaView className="flex-1 p-2 bg-white">
@@ -57,7 +83,7 @@ const ProfileScreen = () => {
       </View>
       <View className="items-center mt-8">
         <Image
-          source={require("../assets/image/profile.png")}
+          source={require("../../assets/image/profile.png")}
           className="h-40 w-40 rounded-full"
         />
         <Text className="text-xl font-semibold mt-2">{userData.name}</Text>
@@ -83,13 +109,6 @@ const ProfileScreen = () => {
         </View>
       </View>
       <View>
-      <TouchableOpacity className="bg-primary rounded-2xl py-3 mt-5"
-          onPress={handleDone}
-        >
-          <Text className="text-white text-center font-bold">
-            Done
-          </Text>
-        </TouchableOpacity>
         <TouchableOpacity className="bg-primary rounded-2xl py-3 mt-5"
           onPress={handleLogout}
         >

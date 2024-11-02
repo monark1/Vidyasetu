@@ -2,7 +2,7 @@ import HomeScreen from "./Home/HomeScreen";
 import SignUpScreen from "./SignUP/SignUpScreen";
 import OnboardingScreen from "./OnboardingScreen";
 import ChatScreen from "./ChatScreen";
-import ProfileScreen from "./ProfileScreen";
+import ProfileScreen from "./Profile/ProfileScreen";
 import FormScreen from "./FormScreen";
 import PanalScreen from "./PanalScreen";
 import CollegeLogin from "./Login/CollegeLogin";
@@ -20,6 +20,7 @@ import CollegeManagement from "./Admin/CollegeManagement";
 import DataVerify from "./Admin/DataVerify";
 import ReportAnalytics from "./Admin/ReportAnalytics";
 import ToartMessage from "../components/ToartMessage";
+import CollegeProfile from "./Profile/CollegeProfile";
 export {
   HomeScreen,
   LoginScreen,
@@ -43,4 +44,5 @@ export {
   DataVerify,
   ReportAnalytics,
   ToartMessage,
+  CollegeProfile,
 };

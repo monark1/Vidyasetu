@@ -260,6 +260,34 @@ router.post("/userdata", async (req, res) => {
     }
 });
 
+router.post("/collegeuserdata", async (req, res) => {
+    const { token } = req.body;
+    try {
+        const user = jwt.verify(token, JWT_SECRET);
+        const useremail = user.email;
+
+        CollegeUser.findOne({ email: useremail }).then((data) => {
+            return res.send({ status: "Ok", data: data });
+        });
+    } catch (error) {
+        return res.send({ error: error });
+    }
+})
+
+router.post("/adminuserdata", async (req, res) => {
+    const { token } = req.body;
+    try {
+        const user = jwt.verify(token, JWT_SECRET);
+        const useremail = user.email;
+
+        Admin.findOne({ email: useremail }).then((data) => {
+            return res.send({ status: "Ok", data: data });
+        });
+    } catch (error) {
+        return res.send({ error: error });
+    }
+})
+
 router.post("/forget", async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });

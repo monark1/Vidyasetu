@@ -16,11 +16,8 @@ const { width, height } = Dimensions.get('window')
 const OtpVerfiy = () => {
     const [email, setEmail] = useState("");
     const [otp, setOtp] = useState("");
-    const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [isLogin, setIsLogin] = useState("");
-    const [stLogin, setStLogin] = useState("login");
     const [acType, setAcType] = useState("");
-    const [login, setLogin] = useState(true);
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
     const [toastTitle, setToastTitle] = useState("");
@@ -32,7 +29,7 @@ const OtpVerfiy = () => {
     const handleToast = () => {
         setToast(false);
     }
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log("Submit", email);
         const userData = {
             email: email,
@@ -40,7 +37,7 @@ const OtpVerfiy = () => {
         }
         console.log(userData);
         axios
-            .post("https://student-chatbot-a8hx.onrender.com/otpverify" || "http://192.168.225.123:5001/otpverify", userData)
+            .post("https://student-chatbot-a8hx.onrender.com/otpverify" || "http://192.168.31.130:5001/otpverify", userData)
             .then((res) => {
                 console.log(res.data);
                 setToastType(res.data.status);
@@ -49,13 +46,15 @@ const OtpVerfiy = () => {
                     // Alert.alert("Otp Verified");
                     setToastTitle("Otp Verified");
                     setToast(true);
-                    AsyncStorage.setItem("isLoginIN", JSON.stringify(true));
                     setTimeout(() => {
                         if (acType == "Student") {
-                            navigation.navigate("Profile");
+                            AsyncStorage.setItem("stayLogin", "student");
+                            navigation.navigate("Home");
                         } else if (acType == "admin") {
+                            AsyncStorage.setItem("stayLogin", "admin");
                             navigation.navigate("AdminHome")
                         } else if (acType == "college") {
+                            AsyncStorage.setItem("stayLogin", "college");
                             navigation.navigate("CollegeForm")
                         }
                     }, 3000)
@@ -72,7 +71,7 @@ const OtpVerfiy = () => {
             email: email,
         }
         axios
-            .post("https://student-chatbot-a8hx.onrender.com/otpResend", userData)
+            .post("https://student-chatbot-a8hx.onrender.com/otpResend" || "http://192.168.31.130:5001/otpResend", userData)
             .then((res) => {
                 console.log(res.data);
                 setToastType(res.data.status);

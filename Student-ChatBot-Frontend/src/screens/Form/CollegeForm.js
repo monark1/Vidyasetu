@@ -37,6 +37,9 @@ const CollegeForm = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
+  const handleProfile = () => {
+    navigation.navigate("Profile");
+  }
   const handleSubmit = () => {
     const collegeData = {
       collegeName: collegeName,
@@ -85,7 +88,7 @@ const CollegeForm = () => {
           <Text className="text-3xl font-semibold text-primary">College Form</Text>
           <TouchableOpacity
             className="h-10 w-10 bg-gray-300 rounded-full justify-center items-center"
-            onPress={handleGoBack}
+            onPress={handleProfile}
           >
             <Ionicons name="menu" size={32} color="#45484A" />
           </TouchableOpacity>

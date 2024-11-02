@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { addEventListener } from '@react-native-community/netinfo'
 import AppNavigation from './src/router/appNavigation'
 import ToartMessage from './src/components/ToartMessage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const App = () => {
   const [isConnected, setIsConnected] = useState('')
@@ -10,6 +11,8 @@ const App = () => {
   const [toastTitle, setToastTitle] = useState('')
   const [toastDes, setToastDes] = useState('')
   const [toastType, setToastType] = useState('')
+
+
   const handleToast = (title, des, type) => {
     setToastTitle(title)
     setToastDes(des)
@@ -19,8 +22,8 @@ const App = () => {
     if (isConnected == 'false') {
       handleToast("No Internet Connection", "Please check your internet connection", "warning")
       setToast(true)
-    } 
-    if(isConnected == 'true') {
+    }
+    if (isConnected == 'true') {
       handleToast("Internet Connected", "You are connected to internet", "Ok")
       setToast(true)
     }
@@ -30,31 +33,21 @@ const App = () => {
     setToast(false);
   }
   const handleNetInfo = () => {
-    let a = 0
-    let b = false
     addEventListener((state) => {
-      // console.log("Connection", a++ );
-      // console.log("Connection", state);
-      // console.log("Connection", state.isConnected);
-      b = state.isConnected
+      setIsConnected(state.isConnected.toString())     
     })
-    if(b){
-      setIsConnected('true')
-    } else {
-      setIsConnected('false')
-    }
   }
   useEffect(() => {
     handleNetInfo()
     handleNet()
-    setTimeout(() => {
-      setToast(false)
-    },2000)
-  }, [0])
+    // setTimeout(() => {
+    //   setToast(false)
+    // }, 2000)
+  }, [isConnected])
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      <AppNavigation />
+      <AppNavigation/>
       {toast && <ToartMessage title={toastTitle} des={toastDes} type={toastType} onPress={handleOnPress} />}
     </>
   )

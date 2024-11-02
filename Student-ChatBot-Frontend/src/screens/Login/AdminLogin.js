@@ -54,7 +54,7 @@ const AdminLogin = () => {
     };
     console.log(email, password);
     axios
-      .post("https://student-chatbot-a8hx.onrender.com/login", userData)
+      .post("https://student-chatbot-a8hx.onrender.com/adminLogin", userData)
       // .post("http://192.168.31.130:5001/adminLogin",userData)
       .then((res) => {
         console.log(res.data);

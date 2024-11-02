@@ -48,7 +48,8 @@ const LoginScreen = () => {
     AsyncStorage.setItem("acType", acType);
     navigation.navigate("ForgetPassword");
   }
-  const handleHomeWithOutLogin = () => {
+  const handleHomeWithOutLogin = async () => {
+    await AsyncStorage.setItem("stayLogin", "guest");
     navigation.navigate("Home");
   };
 
@@ -63,7 +64,7 @@ const LoginScreen = () => {
     };
     console.log(email, password);
     axios
-      .post("https://student-chatbot-a8hx.onrender.com/login", userData)
+      .post("https://student-chatbot-a8hx.onrender.com/login" || "http://192.168.31.130:5001/login", userData)
       // .post("http://192.168.31.130:5001/login", userData)
       .then((res) => {
         console.log(res.data);
@@ -78,7 +79,6 @@ const LoginScreen = () => {
           AsyncStorage.setItem("login", isLogin)
           AsyncStorage.setItem("acType", acType);
           AsyncStorage.setItem("email", email);
-          setItem("isLogin", "true");
           setTimeout(() => {
             navigation.navigate("OtpVerify");
           },3000)
